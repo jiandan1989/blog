@@ -6,14 +6,16 @@ tags:
 #### 一、显示信息的命令
 
 在javascript调试中可以使用console的命令来代替alert或者document.write命令，不影响页面显示，也不会阻碍js的执行，内置有5种打印信息的命令，根据不同的信息使用不同的命令:
-	
+
+<!-- more -->
+
             console.log("这是log") // 打印普通信息
             console.error("这是error信息")  //错误信息
             console.info("这是info信息") 	// 一般信息
             console.debug("这是debug信息") //除错信息
             console.warn("这是warn信息")
 	
-<!-- more -->	
+
 		
 #### 二、占位符
 

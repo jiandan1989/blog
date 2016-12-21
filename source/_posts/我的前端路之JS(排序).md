@@ -5,6 +5,8 @@ tags:
 
 以前一直以为用了原生数组继承的sort函数就可以直接把数字内元素为数字的数组排序？原来我的理解一直是错误的。先上代码-->别人的
 
+<!--more-->
+
         var by = function(name){
             return function(o,p){
                 var a,b ;
