@@ -928,27 +928,915 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 
 真是大意了
 
+### 模块分明
+
+其实在Javascript中大力模式除了定义命名空间外，还有一个作用你需要知道，就是通过当里模式来管理代码库的各个模块，比如早起百度tangram，雅虎的YUI都是通过单例模式来控制自己的每个功能模块的，比如tangram中定义命名空间为百度，当添加设置元素class方法，插入一个元素方法是，他们会放到dom模块，当添加事件中阻止事件的冒泡方法，阻止事件的默认行为方法的时候，会放到Event模块里,当添加去除字符创首位空白字符方法将字符串进行html编码时，会放到string模块中....
+
+>baidu.dom.addclass //添加元素类
+>baidu.dom.apped //插入元素
+>baidu.event.stopProgagation //阻止冒泡T
+>baidu.event.trim //去除字符串首尾空白字符
+>baidu.string.encodeHTML //将字符串进行html编码
+
+#### 创建一个小型代码库
+
+所以我们以后写自己的小型方法库的时候也可以用单例模式来规范我们自己代码库的各个模块，比如我们有一个A库，它包含共用模块，工具模块，ajax模块和其他模块，那么我们就可以自己定制一个如下的小型代码库
+
+        var A = {
+            Util : {
+                util_method1:function(){},
+                util_method2:function(){}
+            },
+            Tool:{
+                tool1_method:function(){},
+                tool2_method:function(){}
+            },
+            Ajax:{
+                get:function(){},
+                post:function(){}
+            },
+            others:{}
+        }
+
+那么我们想使用公共模块。工具模块，ajax模块方法时就像下面这样。
+
+        A.Util.util_method1()
+        A.Tool.tool1_method
+
+#### 无法修改的静态变量
+
+"看上去代码哭的结构真的很清晰了，大家使用起来更容易了"  小白说
+
+"恩，这正是单例模式的好处，不过这是在对代码管理上，其实有一个功能用单例模式实现更适合，就是管理静态变量"
+
+"静态变量，Javascript中不是没有静态变量么，" 小白追问
+
+"你知道，Javascript根本没有static这类关键字，所以定义任何变量理论上都是可以更改的，所以在Javascript中实现创建静态变量又变的很重要，当然Javascript很灵活，人们根据静态变脸只能方位不能修改并且无创建后就能使用这一特点，想出来一个好主意，能访问的变量定义的方式有很多，比如定义在全局空间里，或者定义一个函数内部，并定义一个特权方法访问，等等，既然不能修改，定义在全局空间里就显得很不靠谱了，而如果将变量放在一个函数内部，那必须通过特权方法访问，如果我们不提供赋值变量的方法，值提供获取变量的方法，不就可以做到限制变量的修改并且可以供外界访问的需求了么？但是还有最后一个问题就是目前放在函数内部的变量还能供外界访问，为实现创建后就能使用这一需求，我们就需要让他创建的函数执行一次，此时我们创建的对象内保存静态变量通过取值器访问，最后将这个对象作为一个单例放在全局空间里作为静态变量单例对象共他人使用"
+
+        var Conf = (function(){
+                
+                //私有变量
+                var conf = {
+                    MAX_NUM :100,
+                    MIN_NUM :1,
+                    COUNT:1000
+                }
+                //返回取值器对象
+                return {
+                    get:function(name){
+                        return conf[name] ? conf[name] : null;
+                    }
+                }
+            })();
+
+"很奇妙啊，没有赋值器我们就不能修改内部定义的变量了那么我们想要使用创建了的静态变量，像下面这种方式就可以了吧" 小白说
+
+        var count = Conf.get('COUNT');
+        console.log(count);
+
+#### 惰性单例
+
+"不过为什么静态变量都是大写啊？"小白问
+
+"这是一种定义习惯，在其他编程语言中静态变量都习惯大写，所以在Javascript中虽然是模拟的静态变量我们也要尊重这一使用习惯，有些时候对于单例对象需要延迟创建，所以在单例中还存在一种延迟创建的形式，有人也称之为'惰性创建'"
+
+        //惰性载入单例
+
+        var LazySingl = (function(){
+            //单例实例引用
+            var _instance = null;
+            //单例
+            function Single(){
+                /*这里定义私有属性和方法*/
+                return {
+                    publicMethod:function(){},
+                    publicProperty :1.0
+                }
+            }
+             // 获取单例独享接口
+             return function(){
+                //如果为创建单例将创建单例
+                if(!_instance){
+                    _instance = Single();
+                }
+                return _instance;
+             }
+            })();
+
+我们测试一下可以看出通过LazySingle对象可以成功获取内部创建的单例对象了
+
+>console.log(LazySingle().publicProperty);//1.0
+
+#### 忆之获
+
+单例模式有时也被称为单体模式，它是一个值允许实例化一次的对象类，有时这么做也是为了节省系统资源，当然Javascript中单例模式经常作为命名空间来实现，通过单例对象我们可以将各个模块的代码井井有条的树立在一起
+
+所以如果你想让系统中只存在一个对象，那么单例模式则是最佳解决方案
+
+
 -------
 
 #### 外观模式
+
+外观模式(facade):为一组复杂的子系统接口提供一个更高级的统一接口，通过这个接口使得对字体通接口的访问更加容易，在javascript中有时也会用与对底层结构兼容性做同一个封装来简化用户使用。
+
+前几天的对创建行的设计模式的学习使小白对对象的创建有了深入的理解，今天又了新的挑战，这不小白正在为页面写交互呢？
+
+#### 添加一个点击事件
+
+"小白，你为页面文档document对象绑定了一个click事件来实现隐藏提示框的交互功能，直接用click为document绑定的？" 小明过来问小白
+
+"是这样，不过这有什么问题么？" 小白回答道
+
+"你的功能是完成了，只不过。。。" 小明犹豫了以下
+
+"怎么了。"
+
+"我看一下你的代码"
+
+        document.onclick = function(){
+            e.preventDefault();
+            if(e.target !== document.getElementById('myinput'));
+            hidePageAlert();
+        }
+
+        function hidePageAlert(){
+            //隐藏提示框
+        }
+
+"首先，你为document绑定了onclick事件，但是你知道onclick是DOM0级事件，也就是说这种方式绑定的事件相当于为元素绑定一个事件方法，所以如果我们团队中有人再次通过这种方式为document绑定click事件，就相当于重复定义了一个方法，会将你定义的click事件方法覆盖，如下列程序"
+
+        document.onclick = function(){
+            //其他开发人员重新为document绑定事件会覆盖前面定义的DOM 0 级click事件
+        }
+
+"所以你这种方式是很危险的，因此你应该用DOM2级事件吃力程序提供的方法addEventListener来是实现，然而你知道老版本的IE浏览器(低于9)是不支持这个方法的，所以你要用attachEvent，当然如果有不支持DOM2级事件处理程序的浏览器，你只能用onclick事件方法绑定事件"
+
+"如此看来为元素绑定一个事件真不是一件容易的事，我们要做这么多的事情，有没有一个兼容所有浏览器的方式呢?" 小白问
+
+#### 兼容方式
+
+小明微笑道:"当然有了，我们可以用外观模式来封装他们，这就想每天中午我们急冲冲的去餐厅吃饭，人很多，不论是餐厅点餐员还是作为顾客的我们，大家都想尽量节约时间，以尽可能少的成本完成我们点餐吃饭的整个流程，所以通常的做法是去点套餐，这就很简洁明了，比如鱼香肉丝饭套餐，会为我们提供米饭、菜甚至饮料等。当然我们就不用再浏览遍历每一种菜，主食点什么，饮料要买哪种等，因为套餐已经为我们定制好了，那么在Javascript中也可以通过一个'套餐'来简化复杂的要求，比如我们统一功能接口方法的不同意，我们可以通过外观像点套餐那样定义一个统一接口方法，这样就提供了一更简单的高级接口，简化了我们队复杂的底层接口不统一的使用需求，根据这一思想我们就可以按照如下方式简化我们事件的绑定"
+
+        //外观模式实现
+        function addEvent(dom,type,fn){
+            //对于支持DOM2 级事件处理程序addEventListener方法的浏览器
+            if(dom.addEventListener){
+                dom.addEventListener(type,fn,false);
+            }else if (dom.attachEvent){
+                //对于不支持addEventListener方法但支持attachEvent方法的浏览器
+                dom.attachEvent('on' + type,fn)
+
+            }else{
+                //对于不止addEventListener方法也不支持attachEvent方法，但支持on + '事件名'的浏览器
+                dom['on' + type ] = fn;
+            }
+
+"这样我们以后对于支持addEventListener或attachEvent方法的浏览器就可以放心的绑定多个事件了"
+
+        var myInput = document.getElementById('myinput');
+        addEvent(myInput,'click',function(){
+            console.log('绑定第一个事件')
+        })
+        addEvent(myInput,'click',function(){
+            console.log('绑定第二个事件')
+        })
+        addEvent('myInput','click',function(){
+            console.log('绑定第三个事件')
+        })
+
+ "如此一来，在团队开发中就能安心的为元素绑定事件了" 小白感叹道
+ 
+ #### 除此之外
+
+"不过你之前写的代码问题不止这一个，之前说了，外观模式可以简化底层接口复杂性，也可以解决浏览器兼容性问题，而你前面写的代码除了绑定事件问题外，另外两处问题是在其他IE低版本浏览器中不兼容e.preventDefault()和e.target你也可以通过外观模式来解决"       
+
+        //获取事件对象
+        var getEvent = function(event){
+            //标准浏览器返回event,IE下window.event
+            return event || window.event
+        }
+        //获取元素
+        var getTarget = function(event){
+            var event = getEvent(event);
+            //标准浏览器下event.target,IE下event.srcElement
+            return event.target || event.srcElement;
+        }
+        //阻止默认行为
+        var preventDefault = function(event){
+            var event = getEvent(event);
+            //标准浏览器
+            if(event.preventDefault){
+                event.preventDefault();
+            }else{
+                event.returnValue = false;
+            }
+        }
+
+"有了上面的方法我们就可以用兼容的简单方式来解决上面的问题了"
+
+        document.onclick = function(e){
+            //阻止默认行为
+            preventDefault(e);
+            //获取事件源目标对象
+            if(getTarget(e) !== document.getElementById('myInput')){
+                hideInputSug();
+            }
+        }
+
+#### 小型代码库
+
+"小白，外观模式可以将浏览器不兼容的方法变得简单而又兼容各个浏览器，然而这只是外观模式应用的一部分，很多代码库中都是通过外观模式来封装多个功能，简化底层操作方法，比如我们简单实现获取元素的属性样式的简单方法库"
+
+        var A  = {
+            //通过ID获取元素
+            g : function(id){
+                return document.getElementById(id);
+            },
+            //设置元素css属性
+            css:function(id,key,value){
+                document.getElementById(id).style[key] = value;
+            },
+            //设置元素的属性
+            attr:function(id,key,value){
+                document.getElementById(id)[key] = value;
+            },
+            html:function(id,html){
+                document.getElementById(id).innerHTML = html;
+            },
+            //为元素绑定事件
+            on:function(id,type,fn){
+                document.getElementById(id)['on' + type ] = fn;
+            }
+        }
+
+
+"通过这个代码库，我们再操作元素的属性样式时变得更简单"
+
+        A.css('box','background','red')//设置css样式
+        A.attr('box','className','box')//设置class
+        A.html('box','这是新添加的内容')//设置内容
+        A.on('box','click',function(){//绑定事件
+            A.css('box','width','500px');
+        })
+
+#### 忆之获
+
+当一个复杂的系统提供一系列复杂的接口方法时，为系统的管理方便会造成接口方法的使用极其复杂，这在团队的多人开发中，撰写成本是很大的，当然通过外观模式，对接口的二次封装隐藏其复杂性，并简化其使用是一种很不错的实践，当然这种实践增加了一些资源开销以及程序的复杂度，当然这种开销相对于使用成本来说有时也是可忽略的。
+
+外观模式是对接口方法的外层封装，以供上层代码调用，因此有时外观模式封装的接口方法不需要接口的具体实现，值需要按照接口使用规则使用即可，这也是对系统与客户(使用者)之间的一种松散耦合，使得系统与客户之间不会因结构的变化而相互影响
+
 
 ****
 
 #### 适配器模式
 
+适配器模式(Adaper):将一个类(对象)的接口(方法或者属性) 转化成另外一个接口，以满足用户需求，使类(对象)之间接口的不兼容问题通过适配器得以解决
+
+随着活动页面的功能增加，原生Javascript在一些交互与特效实现上让小白感到力不从心，于是想引入大名鼎鼎的jQuery
+
+#### 引入jQuery
+
+"小白，咱们的作品活动页面还在用我们公司内部开发的A矿建，可是很多新来的同事使用A矿建开发新的功能需求时总是感觉很吃力，而且能用的方法有限，为了让他们尽快融入项目的开发， 我想让你引入jquery框架没问题吧" 小明对小白说
+
+"没问题，" 小白看了一眼代码，迟疑一下 "可是以前功能缩写的代码是不是我还要重新用jquery写一遍，比如像这里引入的事件"
+
+        A(function(){
+            A('button').on('click',function(e){
+                //.....
+                })
+            })
+
+
+"不用啊，咱么公司的A框架与jquery框架比较像，所以你简单写个适配器就可以了"
+
+"适配器，" 小白不解，"那是什么东西"
+
+#### 生活中的适配器
+
+"以前你没有接触过么？" 小明接着说"这可是编程中一种常见的模式，其实生活中这种模式也很常见，你看公司的睡房的两根垂直相交的水管连接处的直角弯管了么？它就是一个适配器，它是的两个不同方向的水管可以疏通流水，再比如我们三角插头手机充电器对于两项插头是不能用的，此时我们就需要一个三项转两项插头电源适配器等等，这些都是适配器，如果你明白这些，那么为页面中的代码写适配器就不难了，其实就是为两个代码库缩写代码兼容运行而书写的额外代码，有了这样的适配器，你就不需要特意的重写以前的功能代码了，你只需要让用以前的代码库缩写的代码适配jquery就可以了"
+
+"可是我改如何做呢?" 小白追问
+
+#### jquery适配器
+
+"你看我们公司的A框架代码书写格式是不是与Jquery代码书写格式很想，所以你需要在加载完jquery框架后写一个适配器，将我们已有的功能适配到jquery，比如代码中有两个事件，一个页面加载事件，一个点击事件，不过这两个事件与Jquery中的写法很像，所以这里就不用做多少改动了，我们的适配器主要的任务是适配两种代码库中不兼容的代码，那么首当其冲的就是全局对象A与jquery了，所以你可以像下面这样轻松实现"
+
+>window.A = A = jquery
+
+"小白，你刷新页面看看是不是运行良好" 小明笑着问
+
+小白刷新了一下页面"真是太神奇了，页面可以正常工作了，这样我们就可以写以前熟悉的jquery了"
+
+#### 适配异类框架
+
+"恩，这是因为咱么公司的整个轻量级的A框架太像jquery了，我们可以将两种框架看成是相似框架，但是如果一个框架与jquery血缘远一点，那么对于这种异类框架适配情况就复杂得多了，举个例子吧，还是实现上面两个事件，所以我写了一个这样的框架"
+
+
+        var A = A || {};
+
+        //通过ID获取元素
+        A.g = function(id){
+            return document.getElementById(id);
+        }
+        //为元素绑定事件
+        A.on = function(id,type,fn){
+            //如果传递参数是字符串则以ID处理，否则以元素对象处理
+            var dom = typeof id === 'string' ? this.g(id) : id;
+            //标准DOM2级添加时间方式
+            if(dom.addEventListener){
+                dom.addEventListener(type,fn,false);
+            }else{
+                //IE 标准DOM2级添加事件方式
+                dom.attachEvent('on' + type,fn);
+            }else{
+                dom['on' + type ] = fn;
+            }
+        }
+
+"那么要完成上面的需求我们可以这样做"
+
+        //窗口加载完成事件
+        A.on('window','load',function(){
+            //按钮点击事件
+            A.on('mybutton','click',function(){
+                //do something    
+            })
+        })
+
+"好了，小白，那么我想引入jquery来还原有的ID苦，你只该如何做么？"
+
+小白思考了以下说:"首先g方法是通过ID获取元素，所以通过$(jquery的简写名称)方法获取jquery对象然后通过get获取第一个成员即可，不过on方法有些复杂，我们不能直接替换，因为jquery和我们A库在通过ID获取元素时时有区别的，jquery的ID前面要加#所以异类矿建的适配器应该是这样的吧"
+
+
+        A.g = function(id){
+            return $(id).get(0);//通过jquery获取jquery对象，然后返回第一个成员
+        }
+        A.on = function(id,type,fn){
+            //如果传递参数是字符串则以ID处理，否则以元素对象处理
+            var dom = typeof id === 'string' ? $('#'+id):$(id);
+            dom.on(type,fn);
+        }
+
+"你还是很聪明的，是这样，通过适配器我们发现如果两种框架的'血缘'比较相近，那么我们适配起来是比较容易的，如果'血缘'相差甚远我们的适配器写起来要复杂的多，因此你要记住，日后飞到万不得已请情况下，尽量引入相似框架"
+
+"是啊，后一种要写不少代码啊" 小白补充说
+
+#### 参数适配器
+
+"除此之外，适配器还有很多用途，比如方法需要传递多个参数，例如..."
+
+>function doSomething(name,title,age,color,size,prize){}
+
+"那么我们记住这些参数的顺序是很困难的，所以我们经常是以一个参数对象方式传入的"
+
+        /**
+         * obj.name:name
+         *obj.title:title
+         *obj.age:age
+         *obj.color:color
+         *obj.size:size
+         *obj.prize:prize
+         */
+
+>function doSomething(obj){}
+
+"然而当调用它的时候又不知道传递的参数是否完成，如有一些参数没有传入，一些参数是有默认值的等等，此时我们通常的做法就是用适配器来适配传入的这个参数对象，如下所示"
+
+        function doSomething(obj){
+            var _adapter = {
+                name:"雨夜清荷",
+                title:"设计模式",
+                age:24,
+                color:"pink",
+                size:100,
+                prize:50
+            };
+            for(var i in _adapter){
+                _adapter[i] = obj[i] || _adapter[i];
+            }
+            //或者extend(_adapter,obj) 注此时可能会多添加属性
+            //do things
+        }
+
+
+#### 数据适配
+
+"没看出你接触过插件开发" 小明接着说"对于这类对参数的适配又有衍生，比如数据的适配，比如这有一个数组"
+
+>var arr = ['Javascript,'book','前端编程语言','8月1日'];
+
+"我们发现数组中的每个成员代表的意义不同，所以这种数据结构语义不好，我们通常将其适配成对象格式，比如下面这种对象数据结构"
+
+>var obj = {
+>       name:"",
+>       type:"",
+>       title:"",
+>       time:""
+>    
+>}
+
+"我们就可以像下面这样适配"
+        
+        function arrToObjAdapter(arr){
+            return {
+                name:arr[0],
+                type:arr[1],
+                title:arr[2],
+                data:arr[3]
+            }
+        }
+
+        var adapterData = arrToObjAdapter(arr);
+        console.log(adapterData) //{name:"javascript",type:"book",title:"前端编程语言",data:"8月1日"}
+
+"这也为数据的灵活使用提供了新思路了" 小白感叹道
+
+#### 服务器端数据适配
+
+"是啊" 小明接着说"但是，你知道么， 最重要的是它解决了前后端的数据依赖，前端程序不再为后端传递的数据所束缚，如果后端因为架构改变导致传递的数据结构发生变化，我们只需要写个适配器就可以放心了，比如我们用jquery想后端someAdress.php接口请求数据，然后用dosomething方法处理接收的格式，我们在调用dosomething方法时最好不哟啊直接调用，最好先将传递过来的数据适配成对我们可有的数据在使用，这样将更安全，如下面的例子"
+
+        //为简化模型，这里使用Jquery的Ajax方法，理想数据是一个一维数组
+        function ajaxAdapter(data){
+            //处理数据并返回新数据
+            return [data['key1'],data['key2'],data['key3']];
+        }
+        $.ajax({
+            url:'something.php',
+            success:function(data,status){
+                if(data){
+                    //使用适配后的数据--- 返回的对象
+                    doSomething(ajaxAdapter(data))
+                }
+            }
+        });
+
+"像这样。如果日后后端数据有任何变化我们只需响应的更改ajaxAdapter适配器转化格式就可以了"
+
+
+### 忆之获
+
+传荣设计模式中，适配器模式往往是适配两个接口不尖肉的问题，然而在javascript中，适配器的应用范围更广，比如适配两个代码库， 适配前后端数据，等等
+
+Javascript中的适配器的应用，更多应用在对象之间，为了使对象可用，通常我们会将对象 差费并重新包装，这样我们就要了解适配对象的内部结构，这也是与外观模式的区别所在，当然适配器模式同样解决了对象之间的耦合度，包装的适配器代码增加了一些资源开销，当然这是微乎其微的。
+
+
 --------
 
 #### 代理模式
+
+
+代理模式(proxy):由于一个对象不能直接饮用另一个对象，所以需要通过代理对象在这两个对象之间起到中介的作用
+
+由于用户相册模块上传的照片量越来越大，导致服务器端需要将图片上传模块重新部署到另外一个域(可理解为另一台服务器)中，这样对于前端来说，用户上传图片的请求路径发生变化，指向其他服务器，这就导致跨域问题
+
+
+#### 无法获取图片上传模块数据
+
+"小名 你帮我看看，为什么我向咱们图片上传模块所在的服务器发送的请求，得不到数据呢？" 小白问小明道
+
+        //当前域www.xx.com
+        $.ajax({
+            url:http;//upload.xx.com/upload.php,
+            success:function(res){
+                //无法获取返回的数据
+            }    
+        })
+
+"打开你的控制台，你发现没有，已经报错了，出现蛞蝓问题了"
+
+>//浏览器控制台报错，XMLHttprequest cannot load http://upload.xx.com/upload.php no 'Access-Control-Allow-Origin' header is present on the requested resource
+
+#### 一切只因跨域
+
+"哦，为什么会出现，什么是跨域?" 小白问
+
+"由于javascript对安全访问因素的考虑，不允许跨域调用其他页面，这里的域你可以想象成域名，比如百度的域名http://www.baidu.com，淘宝的域名http://www.taobao.com，不同域名下的页面是不能直接调用的，这样百度域名加的页面是不允许直接调用淘宝页面的，这也是一种javascript中因同源策略所定义的限制，不过仅此一点限制还不够，javascript还对同一域名不同的端口号，同一玉面不同协议，域名和域名对应的IP，主域与子域、子域与子域等做了限制，都不能直接调用，如下所示"
+
+同一域名不同的端口号:http://www.baidu.com:8081与http://www.baidu.com:8002
+同一域名不同协议:http://www.bai.com与https://www.baidu.com
+域名和域名对应的IP:http://www.baidu.com与http://61.135.169.125
+主域与子域:http://www.baidu.com与http://b.a.com
+子域与子域:http://tieba.baidu.com与http://fanyi.baidu.com
+
+"这么多限制，原来我刚才遇到的情况是正是主域与子域之间的跨域造成的啊，那么总是这样，在主域下，我的相册页面还能与子域中的图片上传模块所在的服务器之间进行通信么？"
+
+"这就需要一些技巧了，你看，相册页面与图片上传模块所在的服务器之间你可抽象成两个对象，那么现在的问题是，他们之间被一条河隔开了，就像天河两端的牛郎织女，只能远远观望而不能相聚一键，他们的情感感动万物，所以才有那么多需求为他们搭桥，同样你想让跨域两端的对象之间实现通信，你就需要找个代理对象来实现他们之间的通信"
+
+"我明白了，虽然他们之间分开了，但是我们可以找一个代理对象来实现相互之间的通信，不过对于这类代理对象又有哪些呢?" 小白问小明道
+
+#### 站长统计
+
+"当然，代理对象有很多，简单一点的如img之类的标签通过src属性可以像其他域下的服务器发送请求，不过这类请求是get请求，并且是单向的， 他不会有响应数据，就好比你站在河的一遍向另一边发消息，却又不想让别人听见，所以你可以将你的消息写在纸上放在口袋里，然后扔过去，不过河对岸有没有人接收到你的消息就不得而知了"
+
+"你说的还挺有意思的，不过这类代理对象有什么应用啊" 小白问
+
+"很多啊，比如一些站长平台会有对于你的页面的统计项，其实现原理就是在你的页面触发一些动作的时候向站长平台发送这类img的get请求，然后他们会对你发的请求做统计，然而你并不知道统计的相关消息" 小明解释道
+
+        //统计代理
+        var Count = (function(){
+            //缓存图片，
+            var img = new Image();
+            return function(param){
+                //统计请求字符串
+                var str = 'http://www.count.com/a.gif';
+                //拼接请求字符串
+                for(var i in param){
+                    str += i + '=' + param[i];
+                }
+                //发送统计请求
+                img.src= str;
+            }
+            })()
+            //测试用例，统计num
+            Count(num:10);
+
+
+#### JSONP
+
+"第二种代理对象形式就是通过script标签，比如我们在CDN(内容分发网络，一种更接近用户的网络架构，是用户可以就近获取内容)上更快速的获取jquery文件时，用script来获取，然而这种获取方式获取的script内容是不变的，而我们需要的代理对象，是对页面与浏览器间痛下的，显然上面的方式还不能满足我们的需求，不过我们知道通过src属性可实现get请求，因此我们可以在src指向的url(请求地址)上面添加一些字段信息，然后服务器端获取这些字段，再响应的生成一份内容"
+
+        //前端浏览器页面
+        <script type="text/javascript">
+        //回调函数，打印出请求数据与响应数据
+        function jsonpCallBack(res,req){
+            console.log(res,req);
+        }
+        </script>
+        <script type="text/javascript" src="http://localhost/test/jsonp.php?callback=jsonp CallBack&data=getJsonPData"></script>
+        //另外一个域下服务器请求接口
+        <?php
+        //后端获取请求字段数据，并生成返回内容
+        $data = $_GET['data'];
+        $callback = $_GET['callback'];
+        echo $callback."('success','".$data."')"
+
+这种方式，你可以想象成合理面的一只小船，通过小船将你的请求发送给对岸，然后对岸的人们将数据放在小船里为你带回来
+
+"哦，那这种方式就需要其他域下的服务器端与前端协同工作开发功能了吧"
+
+#### 代理模板
+
+"当然，这种方式还要求其他域要有一定可靠性，否则将会攻击到你的网站，当然这种方式也被人称之为JSONP方案，有时我们还会通过一个方法来动态生成需要的JSONP中script标签，与之类似的还有一种方案是被称之为代理模板的方案，他的解决思路是这样的，既然不同域之间相互调用对方的页面是有限制的，那么子集域中的两个页面相互之间的调用是可以的，即代理页面B调用被代理的页面A中对象的方式是可以的，那么要实现这种方式我们只需要在被访问的域中，请求返回Header重定向到代理页面，并在代理页面中处理被代理的页面A就可以了"
+
+"既然这样，是不是我们在自己的域中药有这样A。B两个页面了" 小白问
+
+"是的，比如我们将自己的域成为X域，另外的域成为Y域X域中要有一个呗dialing页面即A页面，在A页面中应该具备三个部分，第一个部分是发送请求的模块，如form表单提交，负责向Y域发送请求，并提供额外两组数据，其一是要执行的回调函数名称，其二是X域中代理模板所在的路径，并将target目标指向内嵌框架，第二个部分是一个内嵌框架，如iframe负责提供第一个部分中form表单的响应目标targe的指向，并将嵌入X域中的代理页面作为子页面，即B页面，第三个部分是一个回调函数，负责处理返回的数据"
+
+X域中被代理页面A
+
+        <script type="text/javascript">
+            function callback(data){
+                console.log('成功接收数据',data);
+            }
+        </script>
+        <iframe name="proxyIframe" id="proxyIframe" src="">
+
+        </iframe>
+
+        <form action="http://localhost/test/proxy.php" method ="post" target="proxyIframe">
+            <input type="text" name="callback" value="callback" placeholder="">
+            <input type="text" name="proxy" value="http://localhost:8080/proxy.html" placeholder="">
+            <input type="submit" name="" value="提交" placeholder="">
+        </form>
+
+"其次在X域中我们也要有一个代理页面，主要负责将自己页面URL中searcher部分的数据解析出来，如http://www.a.com?type=1&title=aa这个URL中searcher部分指的是就是?type=1&title=aa 将数据重新组装好，调用A页面里的回调函数，将组装好的数据作为参数传入父页面中定义的花掉函数中并执行"
+
+X域中代理页面B
+
+        
+        <script type="text/javascript">
+            //页面加载后执行
+
+            window.onload = function(){
+                //如果不在A页面中返回，不执行
+                if(top == self) return 
+                //获取并解析searcher中的数据
+                var arr = location.search.substr(1).split('&'),
+                //预定义函数名称以及参数集
+                fn,args;
+                for(var i = 0; i < arr.length; i ++){
+                    //解析searcher中的魅族数据
+                    item = arr[i].split('=');
+                    //判断是否为回调函数
+                    if(item[0] =='callback'){
+                        /设置回调函数
+                        fn = item[i];
+
+                        //判断是否是参数集
+
+                    }else if(item[0] == 'arg'){
+                        //设置参数集
+                        args =item[1];
+                    }
+                }
+                try{
+                    //执行A页面中预设的回调函数
+                    eval('top' + fn + '("' + args + '")');
+                }catch (e){
+
+                }
+            }
+        </script>
+
+"最后是Y域中的呗请求的接口文件C，它的主要工作室将从X域过来的请求，数据解析并获取回调函数字段与代理模板路径字段数据，并打包返回，并将自己的Header重定向为X域的代理模板B所在路径"
+
+            <?php 
+            $proxy = $_POST['proxy'];
+            $callback = $_POST['callback'];
+            header("Location: " .$proxy.?callback=".$callback." & arg=success);?>
+
+测试结果
+        
+            /*控制台输出依次是，成功接收数据success*/ 
+
+### 忆之获
+
+通过集中dialing模式对跨域问题的解决方案，我们可以看到代理对象可以完全解决被代理对象与外界对象之间的耦合，当然从对被代理的页面角度来看是一种抱回代理，然而从服务器角度来看有事一种远程代理，除了在跨域问题中有很多应用中，有时对对象的实例化对资源的开销很大，如页面加载初期加载文件有很多，此时能够延迟加载一些图片对页面首屏加载时间收益是很大的，再比如图片预览页面，页面中有很多图片，面对这么多的图片如果一一加载对资源的开销也是很可怕的，所以通常是当用户点击某张图片时加载这张图片，但如果该图片源文件也很大，此时我们通常的做法是先代理加载一张预览图片，然后再讲原图片替换这张预览图片，这种代理有时也成为虚拟代理
+
+由此可见代理模式可以解决系统之间的耦合度以及系统资源开销大的问题，通过代理对象可保护被代理对象，使被代理对象拓展性不受外界的影响，也可通过代理对象解决某一交互或者某一需求中造成大量系统开销
+
+当然无论代理模式在处理系统。对象之间的耦合度问题还是在结局系统资源开销问题，他都讲构建出一个复杂的代理对象，增加系统的复杂度，同事也增加了一定的系统开销，当然有时对于这种开销往往是可接受的
+
+在Javascript中，它的执行常常依托于浏览器，所以代理模式解决问题的思想有事也为我们提供了一些解决问题的方案。
 
 --------
 
 #### 装饰者模式
 
+装饰者模式(Decorator):在不改变元对象的基础上， 通过对其进行包装拓展(添加属性或者方法)使原有对象可以满足用户的更复杂需求
+
+静止是相对的，运动是绝对的，所以没有一成不变的需求，这不，为增强用户使用表单的交互体验，项目经理找来小白，正在谈后续需求改进呢
+
+"小白"，项目经理走过来，"用户信息表单需求有些变化，以前是当用户点击输入框时，如果输入框输入的内容有限制，那么气后面显示用户输入内容的限制格式的提示文案，现在我们要多加一条，默认输入框上边显示一行提示文案，当用户点击输入框时文案消失"
+
+小白一听心想:"这很简单，找到对应的代码，然后在后面增加几句就可以了嘛"，于是小白浏览一下前任写过的代码。
+
+    //输入框元素
+    var telInput = document.getElementById('tel_input');
+    //输入格式提示文案
+    var telWranText = document.getElementById('tel_wran_text');
+    //点击输入框显示输入框输入格式提示文案
+    input.onclick = function(){
+        telWranText.style.display = 'inline-block';
+    }
+    //于是小白不假思索的修改了这些写过的代码
+    //输入框元素
+    var telInput = document.getElementById('tel_input');
+    //输入框输入格式提示文案
+    var telWranText = document.getElementById('tel_warn_text');
+    //点击输入框显示输入框输入格式提示文案并隐藏输入提示文案
+    input.onclick = function(){
+        telWranText.style.display = 'inline-block';
+        telDemoText.style.display = 'none';
+    }
+
+可是悲剧发生了，小白修改了一个电话输入框，后面还有姓名输入框，地址输入框，等等，还要像电话输入框这样在文件中查找功能代码，然后一个一个修改么？ 小白皱起眉头。
+
+小明看到后，走过来:"小白，怎么了"
+
+项目经理让我给原来用户信息输入框增加一些需求，然而我改一个容易，后面还有这么多输入框，我还要一个一个去文件中查找代码，真不知道该如何是好了
+
+"哦，这样啊，试试装饰者模式吧"
+
+"装饰者模式，以前没有听过，是添加东西的意思么"
+
+#### 装饰已有的功能对象
+
+"恩，很简单，比如你买一个房子，你想住的更舒适，那么你刚刚买的为装饰过的新房子就不能满足你的需求了，所以你要对其装修一番，放置一个床，摆上一个沙发，抬进来一个电视，这样生活更舒适，同样，装饰者模式也是这个道理，原有的功能已经不能满足用户的需求了，此时你要做的就是为原有功能添砖加瓦，设置新功能和属性来满足用户提出的需求，"
+
+"我明白一些了，不过我要如何实现呢？"
+
+"首先明确原有的功能是那些，看看你已经写过的功能代码，这些就是原有的功能，你要做的就是在这基础上添加一些功能来满足用户提出的需求"
+
+    //装饰者
+    var decorator = function(input,fn){
+        //获取事件源目标对象
+        var input = document.getElementById(input);
+        //若时间源已经绑定事件
+        if(typeof input.onclick ==='function'){
+            //缓存时间源原有回调函数
+            var oldClick = input.onclick;
+            //为事件源定义新的事件
+            input.onclick = function(){
+                //事件源原有回调函数
+                oldClick();
+                //执行事件源新增回调函数
+                fn();
+            }
+        }else{
+            //事件源为绑定事件，直接为事件源添加新增回调函数
+            input.onclick = fn;
+        }
+        //做其他事情
+    }
+
+#### 为输入框添砖加瓦
+
+"看看上面的代码，此时装饰者不仅仅可以对绑定过事件的输入框添加新的功能，未绑定过的输入框同样可以，你可以像下面这样调用" 
+
+    //电话输入框功能装饰
+    decorator('tel_input',function(){
+        document.getElementById('tel_demo_text').style.display = 'none';    
+    })
+    //姓名输入框功能装饰
+    decorator('name_input',function(){
+        document.getElementById('name_demo_text').style.display = "none";    
+    });
+    //地址输入框功能装饰
+    decorator('adress_input',function(){
+        docuemnt.getElementById('address_demo_text').style.display = "none";    
+    });
+
+"真是太棒了，通过使用装饰者对象方法，无论输入框是否绑定过事件，都可以轻松完成增加隐藏示例框的需求，真的很不错，" 小白感叹道
+
+"装饰者模式很简单，就是对原有对象的属性与方法的添加"
+
+小白想了想问:"前几天我们学过的适配器模式也是对一个对象的装饰来适配其他对象，那么它与装饰者模式有什么不同呢？"
+
+"适配器方法是对原有对象适配，添加的方法与原有方法功能上大致相似，但是装饰者提供的方法与原来的方法功能项是有一定区别的，不需要了解对象原有的功能，并且对象原有的方法照样可以原封不动的使用，"小明答道
+
+"哦，对了，你也提醒了我，这么说既然在适配器模式中增加的方法要调用原有方法，是不是就要了解原有方法实现的具体细节，而在装饰者中原封不懂的使用，我们就不需要知道原有方法实现的具体细节，只有当我们调用方法时才会知道的"
+
+"恩，正式这样" 小明笑了
+
+### 忆之获
+
+通过小白对输入框交互功能的拓展，我们学习了一种可以在不了解原有功能的基础上对功能拓展模式，这是对原有功能的一种增强与拓展，当然同样对原有对象进行拓展的模式还有适配器模式，所不同的是适配器进行拓展很多时候是对对象内部结构的重组，因此了解其自身结构是必须的，而装饰者对对象的拓展是一种良性拓展，不用了解其具体实现，只是在外部进行了一次封装拓展，这又是对原有功能完整性的一种保护
+
 --------
 
 #### 桥接模式
 
+桥接模式(Bridge):在系统沿着多个维度变化的同事，又不增加其复杂度并已达到解耦。有时候页面中的一些小小细节改变常常因逻辑相似导致大片臃肿的代码，让页面苦涩不堪，小白为解决这类问题，已经熬了整整一上午了
+
+#### 添加事件交互
+
+"小白，什么功能让你谢了一上午" 小明问道
+
+"这不，项目经理让我把页面上不的用户信息部分添加一些鼠标划过特效"
+
+小白接着说:"哎，不过用户信息有很多小部件组成，你看，对于用户名，鼠标划过直接改变背景色，但是像用户等级，用户信息这类不见只能改变里边的数字内容，处理的逻辑不太一样，所以写了不少代码，不过写完时，自己柑橘很多是陈宇的，却又不知道该如何改善"
+
+"哦，来让我看看你的代码吧"
+
+    var spans = document.getElementsByTagName('span');
+    //为用户绑定特效
+    spans[0].onmouseover = function(){
+        this.style.color = 'red';
+        this.style.background= '#ddd';
+    }
+    spans[0].onmouseout = function(){
+        this.style.color = '#333';
+        this.style.background = '#f5f5f5';
+    }
+
+    //为等级绑定特效
+
+    spans[1].onmouseover =function(){
+        this.getElementsByTagName('strong')[0].style.color = 'red';
+        this.getElementsByTagName('strong')[0].style.background="#ddd";
+    }
+    spans[1].onmouseout = function(){
+        this.getElementsByTagName('strong')[0].style.color='#333;
+        this.getElementsByTagName('strong')[0].style.background="#f5f5f5";
+    }
+
+### 提取共同点
+
+"看你的代码是有点，不过你知道你的问题在那里么？"
+
+"要对事件的回调函数再做处理么?" 小白问小明道
+
+"恩，你在写代码时一定要注意对相同的逻辑做抽象提取处理，这一点很重要，如果这一点你能做到，那么你的代码将会更加简洁，重用率也会更大，当然可读性更高，这也是我推荐你使用面向对象思想编程的一个目的" 小明接着说:"对于用户信息模块的每一个部分鼠标划过与鼠标离开两个事件的执行函数由很大一部分是相似的，比如他们都处理每个部件中的某个元素，他们都是处理改元的字体颜色和背景颜色，所以对于这个相似点的抽象提取是很有必要的，因此你可以创建下面这样一个函数，让它解除与事件中的this的耦合"
+
+    //抽象
+    function changeColor(dom,color,bg){
+        //设置元素的字体颜色
+        dom.style.color = color;
+        dom.style.background = bg;
+    }
+
+#### 事件与业务逻辑之间的桥梁
+
+"剩下你要做的就是对元素进行绑定事件了，但是有一点你要明白，仅仅知道元素事件绑定与抽象提起的设置样式方法changeColor还是不够的，你需要用一个方法将它们链接起来，那么这个方法就是桥接方法，这种模式就是桥接魔爱黑丝，就像你在北京开着车去沈阳旅游，那么你就要找到一条连接北京与沈阳的公路，才能顺利的两地王法"，小明接着说:"那么对于事件的桥接方法，我们可以用一个匿名函数代替，否则直接将changeColor作为事件的回调函数，那么我们刚才所作的事情就白做了，因为它们还将耦合在一起，如下面的用户绑定事件"    
+
+    var spans = document.getElemensByTagName('span');
+    spans[0].onmouseover = function(){
+        changeColor(this,'red','#ddd');
+    }
+
+"changeColor方法中的dom实质上是事件回调函数汇总的this,那么我们想接触它们之间的耦合，我们就需要一个桥接方法---匿名回调函数，通过这个回调函数我们将获取到的this传递到changeColor函数中，即可实现需求，同样对于用户名模块的鼠标一开事件用同样的方式即可"  
+
+    spans[0].onmouseout = function(){
+        changeColor(this,'#333','#f5f5f5');
+    }
+
+"好了，小白，对于用户等级这类特殊的需求你知道该怎么做了吧" 小明道
+
+"恩，既然用户名模块的this在桥接匿名函数中获取，那么也应该是同样的道理应用在用户等级上，通过桥接函数来获取数字元素，然后闯入changColor就可以了吧，"
+
+    spans[1].onmouseover = function(){
+        changeColor(this.getElementsByTagName('strong')[0],'red','#ddd');
+    }
+    spans[1].onmouseout = function(){
+        changeColor(this.getElementsByTagName('strong')[0],'#333','#f5f5f5');
+    }
+
+"恩，小白你再来看看是不是现在与之前相比清晰多了，如果再想对需求做任何修改我们只需要修改changeColor的内容就可以了，而不比取到每个时间回到函数中去修改，当然这种实现方法看起来调理更清晰，但是别忘了她是以新增一个桥接函数为代价实现的"
+
+"是啊， 听你说的，感觉桥接模式只是先抽象提取共用部分，然后将实现与抽象通过桥接方法链接在一起，来实现解耦的作用的吧"
+
+#### 多元化对象
+
+"你所得对，不过桥接模式的强大之处不仅仅在此，甚至对于多维的变化也同样适用，比如我们书写一个canvas跑步游戏的时候，对于游戏中的人、小精灵、小球等一系列的实物都有动作单元，而他们的每个动作实现起来方式又都是统一的，比如人和精灵和求的运动其实就是位置坐标X和Y的变化，求的颜色与精灵的色彩的绘制方式都相似等，这样我们可以将这些多维变化部分，提取出来作为一个抽象运动单元进行保存，而当我们创建实体时，将需要的每个抽象动作单元通过桥接，链接在一起运作，这样它们之间不会相互影响并且该方式降低了它们之间的耦合。"
+
+    //多维变量类
+    //运动单元
+    function Speed(x,y){
+        this.x = x ;
+        this.y = y ;
+
+    }
+    Speed.prototype.run = function(){
+        console.log('跑起来')
+    }
+    //着色单元
+    function Color(cl){
+        this.color = cl;
+    }
+    Color.prototype.draw = function(){
+        console.log('绘制色彩')
+    }
+    //变形单元
+    function Shape(sp){
+        this.shape = sp;
+    }
+
+    Shape.prototype.change = function(){
+        console.log('改变形状')
+    }
+    //说话单元
+    function Speek(wd){
+        this.word = wd;
+    }
+    Speek.prototype.say = function(){
+        console.log('书写字体');
+    }
+
+"于是我们想创建一个类，并且它可以运动，可以着色"
+
+    function Ball(x,y,c){
+        //实现运动单元
+        this.speed - new Speed(x,y);
+        //实现着色单元
+        this.color = new Color(c);
+    }
+    Ball.prototype.init = function(){
+        //实现运动
+        this.speed.run();
+        //实现着色
+        this.color.draw()
+    }
+
+"同样我们想创建一个人物类，他可以运动以及说话"
+
+    function People(x,y,f){
+        this.speed = new Speed(x,y);
+        this.font = new Speek(f);
+    };
+
+    People.prototype.init = function(){
+        this.speed.run();
+        this.font.say();
+    }
+
+"当然我们也可以创建一个精灵类，让它可以运动可以着色可以改变形状"
+
+    function Spirite(x,y,c,s){
+        this.speed = new Speed(x,y);
+        this.color = new Color(c);
+        this.shape = new Shape(s);
+    };
+
+    Spirite.prototype.init = function(){
+        this.speed.run();
+        this.color.draw();
+        this.shape.chagne();
+    }
+
+"当我们想实现一个任务时，我们直接实例化一个人物对象，这样他就可以有运动和说话的动作了"
+
+    var p = new People(10,12,16);
+    p.init();
+
+### 忆之获
+
+桥接模式最主要的特点既是将实现层(如元素绑定的时间)与抽象层(如装饰页面UI逻辑)解耦分离，使两部分可以独立变化，由此可以看出桥接模式主要是对结构之间的结构，而前面学过的抽象工厂模式与创建者模式主要业务在于创建，通过桥接模式实现的解耦，使实现层与抽象层分开处理，避免需求的改变造成对象内部的修改，提现了面向对象对拓展的开发及对修改的关闭原则，这是很有用的。
+
+当然由于桥接的添加，有时也造成开发成本的增加，有时性能上也会受到影响。
 --------
+
 
 #### 组合模式
 
