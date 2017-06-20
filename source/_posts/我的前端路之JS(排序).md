@@ -6,7 +6,7 @@ tags:
 以前一直以为用了原生数组继承的sort函数就可以直接把数字内元素为数字的数组排序？原来我的理解一直是错误的。先上代码-->别人的
 
 <!--more-->
-
+```javascript
         var by = function(name){
             return function(o,p){
                 var a,b ;
@@ -49,10 +49,14 @@ tags:
             }
         }
 
-        var employees = [{name: "George", age: 32, retiredate: "March 12, 2014"},
-                        {name: "Edward", age: 17, retiredate: "June 2, 2023"},
-                        {name: "Christine", age: 58, retiredate: "December 20, 2036"},
-                        {name: "Sarah", age: 62, retiredate: "April 30, 2020"}];
+        const employees = [
+            {name: "George", age: 32, retiredate: "March 12, 2014"},
+            {name: "Edward", age: 17, retiredate: "June 2, 2023"},
+            {name: "Christine", age: 58, retiredate: "December 20, 2036"},
+            {name: "Sarah", age: 62, retiredate: "April 30, 2020"}
+            ];
+
+```
 
  这是一个用于操作数组内对象根据某个属性排序,可能会常用,所以放上边 不用往下翻了
 
@@ -84,6 +88,7 @@ tags:
 
 先看一下将字符转为Unicode编码的函数
 
+```javascript
         function array2unicode(arr){
 
             return arr.map(function(s){
@@ -113,7 +118,7 @@ tags:
 
         array2unicode(array);//[49,50][51][49,51]
 
-如果传入一个比较函数作为参数，如何实现默认的字符串排序效果呢？
+// 如果传入一个比较函数作为参数，如何实现默认的字符串排序效果呢？
 
         [12,3,13].sort(function(a,b){
 
@@ -152,6 +157,7 @@ tags:
         }
 
         arr.sort(sortBy);//[1,3,4,12];
+```
 a - b 的值由三种情况
 
 - 小于 0 时，a 排在 b 前面
@@ -373,7 +379,7 @@ chrome 对 sort 做了特殊处理，对于长度小余 23 的数组使用的是
               console.log(a.heap_sort());
 
     - [快速排序](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F)
-
+```javascript
 
             Array.prototype.quick_sort = function() {
             	var len = this.length;
@@ -389,7 +395,7 @@ chrome 对 sort 做了特殊处理，对于长度小余 23 的数组使用的是
             			right.push(this[i]);
             	return left.quick_sort().concat(mid.concat(right.quick_sort()));
             };
-
+```
     - [耐心排序](https://zh.wikipedia.org/wiki/%E8%80%90%E5%BF%83%E6%8E%92%E5%BA%8F)
 
 还有很多排序方法，但都不是经常用，所以就不再复制粘贴了
