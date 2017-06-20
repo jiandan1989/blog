@@ -19,27 +19,23 @@ tags:
 "不过用户名输入框这里如果用户输入的内容不符合规范就自定义个警示框警示一句'用户名不能多于16个字母或数字'"
 
 "好的" 于是小白简简单单的写下了一个警示框类
+```javascript
+const LoginAlert = function(text){
+  this.content = text;
+}
+LoginAlert.prototype.show = function(){
 
-         var LoginAlert = function(text){
-
-           this.content = text;
-        }
-         LoginAlert.prototype.show = function(){
-
-            //显示警示框
-
-         }
-
-           var userNameAlert = new LoginAlert('用户名不能多于16个字母或数字');
-
-           userNameAlert.show();
-
+//显示警示框
+}
+const userNameAlert = new LoginAlert('用户名不能多于16个字母或数字');
+userNameAlert.show();
+```
 
 "关于用户输入的密码也有一个需求，就是当用户输入的密码错误时也提示一句，输入的密码不正确的提示文案吧"
 
 "没问题" 小白心中安息，面向对象编程就是好用，这不刚写完的类，这么快就用上了'小case'
 
-    var passwordAlert = new LoginAlert('输入的密码不正确');
+`const passwordAlert = new LoginAlert('输入的密码不正确');`
 
 "小白，用户登录时如果用户名不存在你提示一句'您的用户名不存在，请重新输入'"
 
@@ -49,31 +45,32 @@ tags:
 
 "添加一个按钮...."，小白傻眼了，心想"以前的功能这可怎么服用啊 哎，又得创建一个类了"
 
+```javascript
+const loginConfirm = function (text) {
+  this.content = text;
+}
 
-        var loginConfirm = function (text) {
-            this.content = text;
-        }
+loginConfirm.prototype.show = function () {
+//显示警示框
+}
 
-        loginConfirm.prototype.show = function () {
-            //显示警示框
-        }
-
-        var loginFailConfirm = new LoginConfirm('您的用户名不存在，请重新输入');
-
-        loginFailConfirm.show();
-
+const loginFailConfirm = new LoginConfirm('您的用户名不存在，请重新输入');
+loginFailConfirm.show();
+```
 "小白"，登录成功后给出一个自定义提示框，处理有 确定取消按钮，也提示一句"欢迎回来，请输入您今天的心情吧"
 
 "这又是一个心累..."，小白感叹道，于是只好添加一个类
 
-        var LoginPrompt = function (text) {
-            this.content = text;
-        }
+```javascript
 
-        LoginPrompt.prototype.show = function () {
-            //显示提示框
-        }
+const LoginPrompt = function (text) {
+  this.content = text;
+}
 
+LoginPrompt.prototype.show = function () {
+//显示提示框
+}
+````
 利用了大半天事件，小白终于把这些需求写完了
 
 "小明。注册模块你来做吧，当用户输入的新用户名规范不正确的时候提示，用户名不能多于16个字母或数组，当用户输入的两次密码不正确时提示，'您两次输入的密码不同意，请重新输入，当用户的邮箱不规范时提示。。。。'",项目经理吩咐着小明余下的工作
@@ -104,90 +101,90 @@ tags:
 
 "举个例子，比如说体育商品店卖体育器材，里面有很多体育用品，及其相关介绍等，当你来到体育用品店买一个篮球及其相关介绍时，你只需要问售货员，他会帮你找到你所要的东西"
 
-        //篮球基类
-        var Basketball = function () {
-            this.intro = "篮球盛行于美国";
-        };
+```javascript
 
-        Basketball.prototype = {
-            getMember: function () {
-                console.log('每个队伍需要5名队员');
-            },
-            getBallSize: function () {
-                console.log('篮球很大');
-            }
-        };
-        //足球基类
+//篮球基类
+const Basketball = function () {
+  this.intro = "篮球盛行于美国";
+};
 
-        var Fallboll = function () {
-            this.intro = "足球在世界范围内很流行";
-        };
+Basketball.prototype = {
+  getMember: function () {
+    console.log('每个队伍需要5名队员');
+  },
+  getBallSize: function () {
+    console.log('篮球很大');
+  }
+};
+//足球基类
 
-        Fallboll.prototype = {
-            getMember: function () {
-                console.log('每个队伍需要11名队员');
-            },
-            getBallSize: function () {
-                console.log('足球很大');
-            }
-        };
+const Fallboll = function () {
+ this.intro = "足球在世界范围内很流行";
+};
 
-        //网球基类
+Fallboll.prototype = {
+  getMember: function () {
+    console.log('每个队伍需要11名队员');
+  },
+  getBallSize: function () {
+    console.log('足球很大');
+  }
+};
 
-        var Tennis = function () {
-            this.intro = "每年有很多网球系列赛";
-        };
+//网球基类
 
-        Tennis.prototype ={
-            getMemeber:function () {
-                console.log('每个队伍需要1名队员');
-            },
-            getBallSize:function () {
-                console.log('网球很小');
-            }
+const Tennis = function () {
+  this.intro = "每年有很多网球系列赛";
+};
 
-        };
+Tennis.prototype ={
+  getMemeber:function () {
+   console.log('每个队伍需要1名队员');
+  },
+  getBallSize:function () {
+   console.log('网球很小');
+ }
+};
 
-        //运动工厂
+ //运动工厂
 
-        var SportFactory = function (name) {
-            switch (name){
-                case 'NBA':
-                    return new Basketball();
-                case 'wordCup':
-                    return new Fallboll();
-                case 'FrenchOpen':
-                    return new Tennis();
-            }
-        }
-
+const SportFactory = function (name) {
+switch (name){
+  case 'NBA':
+    return new Basketball();
+  case 'wordCup':
+    return new Fallboll();
+  case 'FrenchOpen':
+    return new Tennis();
+  }
+}
+```
 "当你想和小伙伴踢足球，只需要告诉电源我要买个足球即可，你使用这个商店工厂时仅仅需要记住SportFactory这个工厂对象就好了，这个工厂魔术师会帮你找到你需要的一切"
+```javascript
+//为世界杯创建一个足球，只需要记住运动工厂SportFactory，调用并创建
+const football = SportFactory('wordCup');
 
-        //为世界杯创建一个足球，只需要记住运动工厂SportFactory，调用并创建
+console.log(football);
+console.log(football.intro);
 
-        var football = SportFactory('wordCup');
-
-        console.log(football);
-        console.log(football.intro);
-
-        football.getMember();
-
+football.getMember();
+```
 "很简单，好了去把你的代码改一下吧，别忘了告诉我你创建的那位'魔术师'";
 
 很快小白就把自定义弹框这位'魔术师'，请来了
 
-
-        var PopFactory = function (name) {
-            switch (name) {
-                case 'alert':
-                    return new LoginAlert();
-                case 'confirm':
-                    return new LoginConfirm();
-                case 'prompt':
-                    return new LoginPrompt();
-            }
-        }
-
+```javascript
+const PopFactory = function (name) {
+    switch (name) {
+        case 'alert':
+            return new LoginAlert();
+        case 'confirm':
+            return new LoginConfirm();
+        case 'prompt':
+            return new LoginPrompt();
+    }
+}
+```
 "很不错"，小明夸道，然后又看了看小白之前写的LoginAlert、LoginConfirm、LoginPrompt3个类，皱了一下眉头，说"这三个类有很多地方是相同的，是可以抽象出来共用的",你也可以用简单工厂的方式实现他们
 
 #### 一个对象有时也可以替代很多类
@@ -201,69 +198,69 @@ tags:
 "举个例子,比如你想创建一些书，那么这些书都有一些相似的地方，比如目录、页码等，也有一些不相似的地方，如书名、出版时间、书的类型等，对于创建的对象相似的属性好处理，对于不同的属性就要针对性的进行处理了，比如我们
 将不同的属性作为参数传递进行处理"
 
+```javascript
 
+//工厂模式
 
-        //工厂模式
+function createBook(name,time,type) {
+    const o = {};
 
-        function createBook(name,time,type) {
-            var o = {};
+    o.name = name;
 
-            o.name = name;
+    o.time = time;
 
-            o.time = time;
+    o.type = type;
 
-            o.type = type;
+    o.getName = function () {
 
-            o.getName = function () {
+        console.log(this.name);
 
-                console.log(this.name);
+    }
 
-            }
+    return o ;//将对象返回
+}
 
-            return o ;//将对象返回
-        }
+const book1 = createBook('js book',2014,'js');
 
-        var book1 = createBook('js book',2014,'js');
+const book2 = createBook('css book',2013,'css');
 
-        var book2 = createBook('css book',2013,'css');
+book1.getName();
 
-        book1.getName();
+book2.getName();
 
-        book2.getName();
-
-
+```
 "真的很像寄生式继承，只不过这里的o没有继承任何类或对象"
 
 "所以你这3个类要改成一个工厂模式也就很简单了，首先抽象他们的相同点，比如公有属性this.content，原型公有方法show，当然也有不同点，比如确认框与提示框的确定按钮，比如提示框的用户输入框等等，所以你就可以像下面这样创建了"
 
+```javascript
+function createPop(type,text) {
+    //创建一个对象，并对对象拓展属性和方法
 
-        function createPop(type,text) {
-            //创建一个对象，并对对象拓展属性和方法
+    const o = {};
 
-            var o = {};
+    o.content = text;
 
-            o.content = text;
+    o.show = function () {
+        //显示方法
+    };
+    if(type == "alert"){
+        //警示框差异部分
+    }
+    if(type == "prompt"){
+        // 确认框差异部分
+    }
 
-            o.show = function () {
-                //显示方法
-            };
-            if(type == "alert"){
-                //警示框差异部分
-            }
-            if(type == "prompt"){
-                // 确认框差异部分
-            }
+    if(type == "confirm"){
+        //确认框差异部分
+    }
+    //将对象返回
+    return o ;
+}
+//创建警示框
 
-            if(type == "confirm"){
-                //确认框差异部分
-            }
-            //将对象返回
-            return o ;
-        }
-        //创建警示框
-
-        var userNameAlert = createPop('alert','用户名只能是26个字母和数字');
-
+const userNameAlert = createPop('alert','用户名只能是26个字母和数字');
+```
 #### 你的理解决定你选择的方式
 
 
@@ -285,77 +282,77 @@ tags:
 "小白，咱们新来了一批广告资源需求要投放，关于计算机培训的，一批是java的，用绿色字体，还有一批是PHP的，要用黄色字体，红色背景"
 
 "没问题，于是小白准备创建两个雷，然后通过实例对象方式来完成这个需求"。
+```javascript
+const Java = function (content) {
+    //将内容保存在content里面以备日后使用
+    this.content = content;
+//    创建对象时，通过闭包，直接执行，将内容按需求的样式插入到页面内
 
-        var Java = function (content) {
-            //将内容保存在content里面以备日后使用
-            this.content = content;
-        //    创建对象时，通过闭包，直接执行，将内容按需求的样式插入到页面内
+    (function (content) {
+        const div = document.createElement('div');
+        div.innerHTML = content;
+        div.style.color = 'green';
+        document.getElementById('container').appendChild(div);
+    })(content);
+};
 
-            (function (content) {
-                var div = document.createElement('div');
-                div.innerHTML = content;
-                div.style.color = 'green';
-                document.getElementById('container').appendChild(div);
-            })(content);
-        };
+//创建PHP学科类
 
-        //创建PHP学科类
+const Php = function (content) {
+    this.content = content;
+    (function (content) {
 
-        var Php = function (content) {
-            this.content = content;
-            (function (content) {
-
-                var div = document.createElement('div');
-                div.style.color = 'yellow';
-                div.style.background = 'red';
-                document.getElementById('container').appendChild(div);
-            })(content)
-        }
-
+        const div = document.createElement('div');
+        div.style.color = 'yellow';
+        div.style.background = 'red';
+        document.getElementById('container').appendChild(div);
+    })(content)
+}
+```
 刚写完就听到身后的喊声:"小白，又来了一批广告，关于javascript的，需求背景色是粉色...."
 
 "好吧" 突然间小白想起昨天学习的简单工厂模式，心想"正好排上用场了"，就用简单工厂模式去实现吧，这样日后再创建对象直接找工厂就好了
+```javascript
+//创建java类
 
-        //创建java类
+const Java = function (content) {
+    //..........
+};
 
-        var Java = function (content) {
-          //..........
-        };
+//创建PHP学科类
 
-        //创建PHP学科类
+const Php = function (content) {
+    //...
+};
 
-        var Php = function (content) {
-            //...
-        };
+//创建javascript学科
+const Javascript = function (content) {
+    this.content = content;
 
-        //创建javascript学科
-        var Javascript = function (content) {
-            this.content = content;
+    (function (content) {
+        const div =document.createElement('div');
+        div.innerHTML = content;
+        div.style.color = "pink";
+        document.getElementById('container').appendChild(div);
+    })(content);
+};
 
-            (function (content) {
-                var div =document.createElement('div');
-                div.innerHTML = content;
-                div.style.color = "pink";
-                document.getElementById('container').appendChild(div);
-            })(content);
-        };
+//学科类工厂
 
-        //学科类工厂
-
-        function JobFactory(type,content) {
-            switch (type){
-                case 'java':
-                    return new Java(content);
-                case 'php':
-                    return new Php(content);
-                case 'javascript':
-                    return new Javascript(content);
-            }
-        };
-
+function JobFactory(type,content) {
+    switch (type){
+        case 'java':
+            return new Java(content);
+        case 'php':
+            return new Php(content);
+        case 'javascript':
+            return new Javascript(content);
+    }
+};
+```
 然后写了一个测试案例:
 
-        JobFactory('Javascript','Javascript哪家强');
+`JobFactory('Javascript','Javascript哪家强');`
 
 "小白，又来了一批UI学科，红色边框...."
 
@@ -378,117 +375,114 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 
 小白有些不懂，打断小明的话:"小明，什么叫安全模式类，你说的我不是很懂，你能详细说明一下吗？"
 
-"安全模式类是说可以屏蔽使用者对类的错误使用造成的错误，比如对于一个类(我们暂且称之为Demo类)的创建，我们知道类的前面是需要new关键字的(比如var d = new Demo())。不过如果其他人不知道这个对象(Demo)
-是一个类，那么在使用时很可能忽略new 关键字直接执行类，(比如 var d = Demo())，此时我们得到的并不是我们预期的对象，如下所示:"
+"安全模式类是说可以屏蔽使用者对类的错误使用造成的错误，比如对于一个类(我们暂且称之为Demo类)的创建，我们知道类的前面是需要new关键字的(比如const d = new Demo())。不过如果其他人不知道这个对象(Demo)
+是一个类，那么在使用时很可能忽略new 关键字直接执行类，(比如 const d = Demo())，此时我们得到的并不是我们预期的对象，如下所示:"
 
+```javascript
+const Demo = function () {
 
-        var Demo = function () {
+};
 
-        };
+Demo.prototype = {
+    show :function () {
+        console.log('成功获取')
+    }
+}
 
-        Demo.prototype = {
-            show :function () {
-                console.log('成功获取')
-            }
-        }
+const d = new Demo();
 
-        var d = new Demo();
+d.show();//成功获取
 
-        d.show();//成功获取
+const d = Demo();
 
-        var d = Demo();
-
-        d.show();//Uncaught TypeError : cannot read property 'show' of undefined
-
+d.show();//Uncaught TypeError : cannot read property 'show' of undefined
+```
 "那么你所说的安全模式就是为了解决这种问题吧"
 
 "当然，，这也是避免想你一样的那些新来同学可能犯的错误，当然解决方案很简单，就是在构造函数开始时先判断当前对象this指代是不是类(Demo)，如果是则通过new关键字创建对象，如果不是
 说明类在全局作用域中执行，(通常情况下)那么既然在全局作用域中执行当然this就会指向window了，(通常情况下，如非浏览器环境可为其他全局对象)，作用我们就要重新返回新创建的对象了 "
 
+```javascript
+const Demo = function(){
 
-        var Demo = function(){
+    if(!this instanceof Demo){
 
-            if(!this instanceof Demo){
+        return new Demo();
 
-                return new Demo();
+    }
+}
 
-            }
-        }
+const d = Demo();
 
-        var d = Demo();
-
-        d.show();//成功获取
-
+d.show();//成功获取
+```
 "有了安全模式我们就可以将这种技术应用在我们的工厂方法中了"
 
 
 #### 安全的工厂模式
+```javascript
+//安全模式创建的工厂类e
 
-        //安全模式创建的工厂类e
+const Factory = function (type, content) {
+    if (this instanceof Factory) {
+        const s = new this(type, content);
+        return s;
+    }else {
+        return new Factory(type,content);
+    }
+};
 
-        var Factory = function (type, content) {
-            if (this instanceof Factory) {
-                var s = new this(type, content);
-                return s;
-            }else {
-                return new Factory(type,content);
-            }
-        };
+//工厂原型中设置创建所有类型数据对象的基类
 
-        //工厂原型中设置创建所有类型数据对象的基类
+Factory.prototype = {
+    Java:function (content) {
 
-        Factory.prototype = {
-            Java:function (content) {
+    },
+    Php:function (content) {
 
-            },
-            Php:function (content) {
+    },
+    Javascript:function (content) {
 
-            },
-            Javascript:function (content) {
+    },
+    UI:function (content) {
+        this.content = content;
+        (function (content) {
+            const div = document.createElement('div');
+            div.innerHTML = content;
+            div.style.border = '1px red solid';
+            document.getElementById('container').appendChild(div);
 
-            },
-            UI:function (content) {
-                this.content = content;
-                (function (content) {
-                    var div = document.createElement('div');
-                    div.innerHTML = content;
-                    div.style.border = '1px red solid';
-                    document.getElementById('container').appendChild(div);
+        })(content);
+    }
+}
 
-                })(content);
-            }
-        }
-
-
+```
 "这样我们以后如果想添加其他类时，是不是只需卸载Factory这个工厂类的原型里面就可以了"
 
 "恩，是这样，你再也不必担心创建时做任何修改，就好比在Factory类的原型里面注册了一张名片，以后需要那类直接拿着这张名片，查找上面的信息就能找到这个类了，所以你就不用担心使用时找不到基类的问题了"
 
 "小白，这里是我们今天要添加广告的数据，给你，现在就给添加上吧，" 经理走过来对小白说。
 
-
-            var data = [{
-                type: "Java", content: "Java哪家强"
-            }, {
-                type: "Javascript", content: "Javascript哪家强"
-            }, {
-                type: "PHP", content: "PHP哪家强"
-            }, {
-                type: "UI", content: "UI哪家强"
-            }];
+```javascript
+const data = [{
+    type: "Java", content: "Java哪家强"
+  }, {
+    type: "Javascript", content: "Javascript哪家强"
+  }, {
+    type: "PHP", content: "PHP哪家强"
+  }, {
+    type: "UI", content: "UI哪家强"
+}];
 
 小白接过数据一看，格式很友好，于是很快完成了经理提出的需求。
 
-            for(var i = 0 ; i < data.length;i ++){
-                Factory(data[i].type,data[i].content)
-            }
-
+for(const i = 0 ; i < data.length;i ++){
+    Factory(data[i].type,data[i].content)
+}
+```
 "小白，广告那边又来了需求，需要一批C++学科，蓝色字体。。。。"
 
 小白听到，笑了笑。。。
-
-
-
 
 --------
 
@@ -529,116 +523,116 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 
 "工厂模式主要是为了创建对象实例或者类族(抽象工厂)，关心的是最终产出(创建)的是什么，不关心你创建的整个过程，仅仅需要知道你最终创建的结果，所以通过工厂模式我们得到的都是对象实例或者类族，然而建造折磨而是在创建对象时要更为复杂一些，虽然其目的也是为了创建对象，但是它更关心的是创建这个对象的整个过程，甚至于创建对象的每一个细节，比如创建一个人，我们创建的结果不仅仅要得到人的实例，还要关注创建人的时候，这个人应该穿什么衣服，男的还是女的，兴趣爱好是什么。所以说建造者模式更注重的是创建的细节，而在本例中我们看到，我们需要的不仅仅是应聘者的一个实例，还要在创建过程中注意一下这位应聘者都有哪些兴趣爱好、他的姓名等信息，他所期望的职位是什么，等等，那么这些关注点都是需要我们创建的。"
 
+```javascript
+//创建一位人类
 
-        //创建一位人类
+const Human = function (param) {
+    //创建技能
+    this.skill = param && param.skill || '保密';
+    //兴趣爱好
+    this.hobby = param && param.hobby || '保密';
 
-        var Human = function (param) {
-            //创建技能
-            this.skill = param && param.skill || '保密';
-            //兴趣爱好
-            this.hobby = param && param.hobby || '保密';
+}
+//类人原型方法
+Human.prototype = {
+    getSkill: function () {
+        return this.skill;
+    },
+    getHobby: function () {
+        return this.hobby;
+    }
+};
+// 实例化对象
 
+const Named = function (name) {
+    const that = this;
+
+    //构造器
+    //构造函数解析姓名的姓和名
+
+    (function () {
+        that.wholeName = name;
+        if (name.indexOf(' ') > -1) {
+            that.FirstName = name.slice(0, name.indexOf(' '));
+            that.secondName = name.slice(name.indexOf(' '));
         }
-        //类人原型方法
-        Human.prototype = {
-            getSkill: function () {
-                return this.skill;
-            },
-            getHobby: function () {
-                return this.hobby;
-            }
-        };
-        // 实例化对象
+    })(name, that);
+}
 
-        var Named = function (name) {
-            var that = this;
+//实例化职位类
 
-            //构造器
-            //构造函数解析姓名的姓和名
-
-            (function () {
-                that.wholeName = name;
-                if (name.indexOf(' ') > -1) {
-                    that.FirstName = name.slice(0, name.indexOf(' '));
-                    that.secondName = name.slice(name.indexOf(' '));
-                }
-            })(name, that);
-        }
-
-        //实例化职位类
-
-        var Work = function (work) {
-            var that = this;
-            //构造器
-            // 构造函数中通过传入的职位特征来设置响应职位的描述
-            (function (work, that) {
-                switch (work) {
-                    case "code":
-                        this.work = '工程师';
-                        that.workDescript = '每天沉醉于编程';
-                        break;
-                    case "UI":
-                    case "UE":
-                        that.work = "设计师";
-                        that.workDescript = '设计更似一种艺术';
-                        break;
-                    case "teach":
-                        that.work = "教师";
-                        that.workDescript = "分享也是一种快乐";
-                        break;
-                    default:
-                        that.work = work;
-                        that.workDescript = "对不起，我们还不清楚您所选择职位的相关描述";
-                }
-
-            })(work,that);
+const Work = function (work) {
+    const that = this;
+    //构造器
+    // 构造函数中通过传入的职位特征来设置响应职位的描述
+    (function (work, that) {
+        switch (work) {
+            case "code":
+                this.work = '工程师';
+                that.workDescript = '每天沉醉于编程';
+                break;
+            case "UI":
+            case "UE":
+                that.work = "设计师";
+                that.workDescript = '设计更似一种艺术';
+                break;
+            case "teach":
+                that.work = "教师";
+                that.workDescript = "分享也是一种快乐";
+                break;
+            default:
+                that.work = work;
+                that.workDescript = "对不起，我们还不清楚您所选择职位的相关描述";
         }
 
-        //更换期望的职位
+    })(work,that);
+}
 
-        Work.prototype.changeWork = function (work) {
-            this.work = work;
-        }
-        //添加对职位的描述
-        Work.prototype.cahgneDescript = function (setence) {
-            this.workDescript = setence;
-        }
+//更换期望的职位
 
+Work.prototype.changeWork = function (work) {
+    this.work = work;
+}
+//添加对职位的描述
+Work.prototype.cahgneDescript = function (setence) {
+    this.workDescript = setence;
+}
+```
 
 ###### 创建以为应聘者
 
 "这样我们就创建了了抽象出来的3个类----应聘者，姓名解析类与期望职位类，然而创建应聘者类有些特殊，因为对其类闯入的参数做了一个小处理，就是&&与||的运用，如例子中的this.skill = param && param.skill ||'保密'表示，如果存在param这个参数，并且param拥有skill属性，就用这个属性复制给this的skill属性，否则将用默认值'保密来设置，'" 小明接着说："我们最终的目的是要创建以为应聘者，所以需要上面抽象的3个类，这样我们写一个建造者类，在建造者类中我们要通过对这3个类组合调用，就可以创建出一个完整的应聘者对象"
 
-
-            /**
-             - 应聘者建造者
-             - 参数 name :姓名
-             - 参数 work :期望职位
-             - ***/
-            var Person = function (name,work) {
-                //创建应聘者缓存对象
-                var _person = new Human();
-                // 创建应聘者姓名解析对象
-                _person.name = new Named(name);
-                //创建应聘者期望职位
-                _person.work = new Work(work);
-                //将创建的应聘者对象返回
-                return _person;
-            };
-
+```javascript
+/**
+    - 应聘者建造者
+    - 参数 name :姓名
+    - 参数 work :期望职位
+    - ***/
+const Person = function (name,work) {
+    //创建应聘者缓存对象
+    const _person = new Human();
+    // 创建应聘者姓名解析对象
+    _person.name = new Named(name);
+    //创建应聘者期望职位
+    _person.work = new Work(work);
+    //将创建的应聘者对象返回
+    return _person;
+};
+```
 "在应聘者建造者中我们分成三个部分来创建以为应聘者对象，首先创建一位应聘者缓存对象，缓存对象需要修饰(添加属性和方法)，然后我们向缓存对象添加姓名，添加一个期望职位，最终我们就可得到以为完整的应聘者了，看"
 
-> var person = new Person('小明','code');
+> const person = new Person('小明','code');
 
 你可以来测试一下看看
-
->console.log(person.skill);//保密
->console.log(person.name.FirstName);//小
->console.log(person.work.work);//工程师
->console.log(person.work.workDescript);//每一天在编程汇总度过    
->person.work.chagneDescript('更改一下职位描述');//
->console.log(person.work.workDescript);//更改一下职位描述
-
+```javascript
+console.log(person.skill);//保密
+console.log(person.name.FirstName);//小
+console.log(person.work.work);//工程师
+console.log(person.work.workDescript);//每一天在编程汇总度过
+person.work.chagneDescript('更改一下职位描述');//
+console.log(person.work.workDescript);//更改一下职位描述
+```
 "小白,看过之后在回顾下工厂模式，你感觉最大的感受是什么?"
 
 "正向你说的那样，以前工厂模式创建出来的是一个对象，他追求的是创建的结果，别无他求，所以那仅仅是一个实实在在的创建过程，而建造者模式就有所不同，它不仅仅可得到创建的结果，然而也参与了创建的具体过程，对于创建的具体实现的细节也参与了干涉，可以说创建的对象更复杂，或者说这种模式创建的对象是一个符合对象"
@@ -672,48 +666,48 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 ###### 创建一个焦点图
 
 "举个例子，假设页面中有很多焦点图(网页中很常见的一种图片轮播，切换效果)，那么我们要实现这些焦点图最好的方式就是通过创建对象来一一实现，所以我们就需要有一个焦点图类，比如我们把这个类定义为LoopImages"
+```javascript
+const LoopImages = function(imgArr,container){
+    this.imgArr = imgArr;//轮播图片数组
+    this.container = container;//轮播图片容器
+    this.createImage = function(){} ;// 创建轮播图片
+    this.changeImage = function(){};//切换下一张图片
 
-        var LoopImages = function(imgArr,container){
-            this.imgArr = imgArr;//轮播图片数组
-            this.container = container;//轮播图片容器
-            this.createImage = function(){} ;// 创建轮播图片
-            this.changeImage = function(){};//切换下一张图片
-
-        }
-
+}
+```
 "如果一个页面中有多个这类焦点图，其切换动画一般是多样化的，有的可能是上下切换，有的可能是左右 切换，有的可能是渐隐切换，有的可能是放缩切换，等等因此创建的轮播图片结构应该是多样化的，同样切换的小果果也应该是多样化的，因此我们应该抽象出一个积累，让不同特效类去继承这个积累，然后对于差异化的需求通过重写这些继承下来的性或者方法来解决，当然不同的子类之间可能存在不同的街头样式，比如有的包含一个左右切换箭头，于是我们有了下面的例子"
-    
-        var SliderLoopImg = function (imgArr,container) {
-            //构造函数继承图片轮播类
-            LoopImgs.call(this,imgArr,container);
-            //重写继承的切换下一张图片方法
-            this.changeImage= function () {
-                console.log('slideLoopImg changeImage function');
-            }
-        }
-        //渐隐切换类
+```javascript
+const SliderLoopImg = function (imgArr,container) {
+    //构造函数继承图片轮播类
+    LoopImgs.call(this,imgArr,container);
+    //重写继承的切换下一张图片方法
+    this.changeImage= function () {
+        console.log('slideLoopImg changeImage function');
+    }
+}
+//渐隐切换类
 
-        var FadLoopImg = function (imgArr,container,arrow) {
-            LoopImage.call(this,imgArr,container);
-            //切换箭头私有变量
+const FadLoopImg = function (imgArr,container,arrow) {
+    LoopImage.call(this,imgArr,container);
+    //切换箭头私有变量
 
-            this.arrow = arrow;
-            this.chagneImage = function () {
-                console.log('FadeLoopImg changeImage function');
-            }
-        }
-
+    this.arrow = arrow;
+    this.chagneImage = function () {
+        console.log('FadeLoopImg changeImage function');
+    }
+}
+```
 我们创建一个显隐轮播图片测试实例很容易
+```javascript
+<!-- 实例化一个渐隐切换图片类 -->
+const fadeimg = new FadLoopImg([
+    '01.png',
+    '02.png',
+    '03.png'
+],'slide',['left.pn','right.png'])
 
-        <!-- 实例化一个渐隐切换图片类 -->
-        var fadeimg = new FadLoopImg([
-            '01.png',
-            '02.png',
-            '03.png'
-        ],'slide',['left.pn','right.png'])
-
-        fadeimg.changeImage();//FadLoopImg changeImage function
-
+fadeimg.changeImage();//FadLoopImg changeImage function
+```
 "恩，用这种方式实现这类需求是极好的，" 小白说
 
 ###### 最优的解决方案
@@ -721,49 +715,49 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 "是啊，像你这样刚来的同事如果能写出这样的代码已经很不错了，，不过还是存在一些问题的，首先我们看基类，作为基类是要被子类继承的，那么此时将属性和方法都写在基类的构造函数里会有些问题，比如每次子类继承都要创建一次父类，加入父类的构造函数中创建时存在很多耗时较长的逻辑，或者说每次初始化都做一些重复的东西，这样的性能消耗还是蛮大的，为了提高性能，我们需要有一种共享机制，这样每当创建基类时，对于每次创建的一些简单而产异化的属性我们可以放在构造函数中，而我们将一些消耗资源比较大的方法放在基类的原型中，这样就会避免很多不西药的消耗，这也就是原型模式的一个出行，这一模式很想我们之前提到过的累积成，都是基于原型链，也由于这种类型很常见，所以我们进场护士这种模式，在其他面向对象语言中，之所以这种模式经常被提到，是以为该模式在实现这种'共享'上要麻烦一些，是通过复制完成的，我们这个例子该如何修改你知道了吧"
 
 小白思考了一下"原型模式就是将可服用的、可共享的、耗时大的从基类中提出来然后放在其原型中，然后子类通过组合继承或者寄生组合式继承而将方法和属性继承下俩，对于子类中那些需要重写的方法进行重写，这样子类创建的对象既具有子类的属性和方法也共享了基类的原型方法，像下面这样"
+```javascript
+//图片轮播类
+const LoopImages = function (imgArr, container) {
+    this.imagesArray = imgArr;  //轮播图片数组
+    this.container = container;//轮播图片容器
+}
+LoopImages.prototype = {
+    //创建轮播图片
+    createImage:function () {
+        console.log('loopimage createImage function');
+    },
+    //切换下一张图片
+    chagneimage:function () {
+        console.log('Loopiamges changeimage function');
+    }
+}
+//上下滑动切换类
+const SlideLoopImg = function (imgArr, container) {
+    //构造函数继承图片轮播类
+    LoopImages.call(this,imgArr,container);
+}
+SlideLoopImg.prototype = new LoopImages();
+//重写继承的切换下一张图片方法
+SlideLoopImg.prototype.changeImage = function () {
+    console.log('SlideImage changeimage function');
+};
+//渐隐切换类
 
-        //图片轮播类
-        var LoopImages = function (imgArr, container) {
-            this.imagesArray = imgArr;  //轮播图片数组
-            this.container = container;//轮播图片容器
-        }
-        LoopImages.prototype = {
-            //创建轮播图片
-            createImage:function () {
-                console.log('loopimage createImage function');
-            },
-            //切换下一张图片
-            chagneimage:function () {
-                console.log('Loopiamges changeimage function');
-            }
-        }
-        //上下滑动切换类
-        var SlideLoopImg = function (imgArr, container) {
-            //构造函数继承图片轮播类
-            LoopImages.call(this,imgArr,container);
-        }
-        SlideLoopImg.prototype = new LoopImages();
-        //重写继承的切换下一张图片方法
-        SlideLoopImg.prototype.changeImage = function () {
-            console.log('SlideImage changeimage function');
-        };
-        //渐隐切换类
+const FadeLoopImg =function (imgArr,container,arrow) {
+    LoopImages.call(this,imgArr,container);
+    //带有箭头私有变量
+    this.arrow = arrow;
+}
+FadLoopImg.prototype = new LoopImages();
+FadLoopImg.prototype.changeImage = function () {
+    console.log('FadeLoopImg changeImage function');
+}
 
-        var FadeLoopImg =function (imgArr,container,arrow) {
-            LoopImages.call(this,imgArr,container);
-            //带有箭头私有变量
-            this.arrow = arrow;
-        }
-        FadLoopImg.prototype = new LoopImages();
-        FadLoopImg.prototype.changeImage = function () {
-            console.log('FadeLoopImg changeImage function');
-        }
+//测试用例
 
-        //测试用例
-
-        console.log(fadeImg.container)//slide
-        fadeImg.changeImage();//FadeLoopimg changeImage function
-
+console.log(fadeImg.container)//slide
+fadeImg.changeImage();//FadeLoopimg changeImage function
+```
 ###### 原型的拓展
 
 "恩，很不错不过小白，你知道原型模式还有一个特定么"
@@ -775,16 +769,16 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 “原型对象？”
 
 “原型对象是一个共享的对象，那么不论是父类的实例对象或者是子类的继承，都是对他的一个指向引用，所以原型对象才会被共享，既然被共享，那么对原型对象的拓展，不论是子类或者父类的实例对象都会继承下来，小编你可以试一试”
-
-        LoopImages.prototype.getImageLength = function(){
-            return this.imageArray.length;
-        }
-        FadeLoopimg.prototype.getContainer= function(){
-            return this.container;
-        }
-        console.log(fadeImg.getImageLength())
-        console.log(fadeImg.getContainer())
-
+```javascript
+LoopImages.prototype.getImageLength = function(){
+    return this.imageArray.length;
+}
+FadeLoopimg.prototype.getContainer= function(){
+    return this.container;
+}
+console.log(fadeImg.getImageLength())
+console.log(fadeImg.getContainer())
+```
 "真的是这样啊，" 小白兴奋的说
 
 "所以说原型模式有一个特点就是在任何时候都可以对基类或者子类进行方法的拓展，而且所有被实例化的对象或者类都能获取这些方法，这样给予我们队功能拓展的自由性，但是有一点你要注意，正式由于这种方式太自由了，所以不要随意去做，否则如果修改类的其他属性或者方法很有可能影响其他人"
@@ -798,49 +792,49 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 ##### 原型继承
 
 "不过原型模式更多的使用在对对象的创建上，比如创建一个实例对象的构造函数比较复杂，或者耗时比较长，或者通过创建多个对象来实现，此时我们最好不要用new关键字去复制这些积累，到哪可以通过对这些对象属性或者方法进行复制来实现创建，这是原型模式的最初思想，如果涉及多个对象，我们也可以通过原型模式来实现对新对象的创建，那么首先要有一个原型模式的对象复制方法"
+```javascript
+/**
+    - 基于已经存在的模板对象克隆出新对象的模式
+    - argumets[0],arguments[1],arguments[2]:参数1，参数2，参数2表示模板对象
+    - 注意，这里对模板引用类型的属性实质上进行了前复制(引用类型属性共享)，当然根据需求可以自行深复制(引用类型属性复制)
+    - **/
 
-        /**
-         - 基于已经存在的模板对象克隆出新对象的模式
-         - argumets[0],arguments[1],arguments[2]:参数1，参数2，参数2表示模板对象
-         - 注意，这里对模板引用类型的属性实质上进行了前复制(引用类型属性共享)，当然根据需求可以自行深复制(引用类型属性复制)
-         - **/
-
-        function prototypeExtend() {
-            var F = function () {//缓存类，为实例化返回对象临时创建
-                args = arguments;//模板帝乡参数序列
-                i = 0;
-                len = args.length;
-                for(; i < len ; i ++){
-                    //遍历每个模板对象中的属性
-                    for(var j in args[i]){
-                        //将这些属性复制到缓存类圆形中
-                        F.prototype[j] = args[i][j];
-                    }
-                }
+function prototypeExtend() {
+    const F = function () {//缓存类，为实例化返回对象临时创建
+        args = arguments;//模板帝乡参数序列
+        i = 0;
+        len = args.length;
+        for(; i < len ; i ++){
+            //遍历每个模板对象中的属性
+            for(const j in args[i]){
+                //将这些属性复制到缓存类圆形中
+                F.prototype[j] = args[i][j];
             }
-            //返回缓存类的一个实例
-            return new F();
         }
-
+    }
+    //返回缓存类的一个实例
+    return new F();
+}
+```
 比如切游戏红我们创建一个企鹅对象，如果游戏后只能怪没有企鹅基类，只是听过了一些动作模板对象，我们就可以通过实现对这些模板对象的继承来创建一个企鹅实例对象
 
-        
-        var penguin = prototypeExtend({
-            speed : 20,
-            swim:function () {
-                console.log('游泳速度' + this.speed);
+```javascript
+const penguin = prototypeExtend({
+    speed : 20,
+    swim:function () {
+        console.log('游泳速度' + this.speed);
 
-            }
-        },{
-            run:function (speed) {
-                console.log('奔跑速度' + speed);
-            }
-        },{
-            jump:function () {
-                console.log('跳跃动作')
-            }
-        });
-
+    }
+},{
+    run:function (speed) {
+        console.log('奔跑速度' + speed);
+    }
+},{
+    jump:function () {
+        console.log('跳跃动作')
+    }
+});
+```
 既然通过prototypeExtend创建的是一个对象，我们就无需再用new去创建新的实例对象，我们可以直接使用这个对象
 >penguin.swim();//游泳速度20
 >penguin.run(10);//奔跑速度10
@@ -867,24 +861,24 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 ###### 滑动特效
 
 "小白,你在活动页面实现新闻列表中实现的鼠标滑动特效怎么定义了这么多的方法"
-
-        function g(id){
-            return docuemnt.getElementById(id)
-        }
-        function css(id,key,value){
-            //简单样式属性设置
-            g(id).style[key] =value;
-        }
-        function attr(id,key,value){
-            g(id)[key] = value;
-        }
-        function html(id,value){
-            g(id).innerHTML = value;
-        }
-        function on(id,type,,fn){
-            g(id)['on'+type] = fn;
-        };
-
+```javascript
+function g(id){
+    return docuemnt.getElementById(id)
+}
+function css(id,key,value){
+    //简单样式属性设置
+    g(id).style[key] =value;
+}
+function attr(id,key,value){
+    g(id)[key] = value;
+}
+function html(id,value){
+    g(id).innerHTML = value;
+}
+function on(id,type,,fn){
+    g(id)['on'+type] = fn;
+};
+```
 "这么左右什么不妥么？" 小白问
 
 "你在页面中添加了很多变量， 比如你定义的绑定事件方法on，如果日后其他人要为你的页面添加需求，增加代码而定义一个on变量或者重写了on方法，这样就会和你的代码起冲突了，所以你最好要用单例修改一下你书写的代码"
@@ -904,28 +898,28 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 "很聪明么，所以说单例模式常用来定义命名空间，所以你知道把你的代码怎么改了吧？"
 
 "很容易，直接将上面的代码放在定义变量的{}里就可以了吧";
-    
-        var Ming = {
-            g:function(id){
-                return docuemnt.getElementById(id);
-            },
-            css:function(id,key,value){
-                //简单样式属性设置
-                g(id).style[key] = value;
-            }
-        }
-
+```javascript
+const Ming = {
+    g:function(id){
+        return docuemnt.getElementById(id);
+    },
+    css:function(id,key,value){
+        //简单样式属性设置
+        g(id).style[key] = value;
+    }
+}
+```
 "你别忘了，在你的css方法中你使用了g方法，而我们刚才说过，单例模式要想使用定义的方法一定要加上命名空间Ming，所以你不要忘记将css方法中的g方法改成Ming.g,由于g方法和css方法都在单例对象Ming中，也就是说这两个方法都是单例对象Ming的方法，而对象中this指代当前对象，所以我们还可以在css方法中通过this.g来使用Ming单例对象中的g方法"
-
-        var Ming = {
-            g:function(id){
-                return docuemnt.getElementById(id);
-            },
-            css:function(id,key,value){
-                this.g(id).style[key] = value;
-            }
-        };
-
+```javascript
+const Ming = {
+    g:function(id){
+        return docuemnt.getElementById(id);
+    },
+    css:function(id,key,value){
+        this.g(id).style[key] = value;
+    }
+};
+```
 真是大意了
 
 ### 模块分明
@@ -941,28 +935,28 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 #### 创建一个小型代码库
 
 所以我们以后写自己的小型方法库的时候也可以用单例模式来规范我们自己代码库的各个模块，比如我们有一个A库，它包含共用模块，工具模块，ajax模块和其他模块，那么我们就可以自己定制一个如下的小型代码库
-
-        var A = {
-            Util : {
-                util_method1:function(){},
-                util_method2:function(){}
-            },
-            Tool:{
-                tool1_method:function(){},
-                tool2_method:function(){}
-            },
-            Ajax:{
-                get:function(){},
-                post:function(){}
-            },
-            others:{}
-        }
-
+```javascript
+const A = {
+    Util : {
+        util_method1:function(){},
+        util_method2:function(){}
+    },
+    Tool:{
+        tool1_method:function(){},
+        tool2_method:function(){}
+    },
+    Ajax:{
+        get:function(){},
+        post:function(){}
+    },
+    others:{}
+}
+```
 那么我们想使用公共模块。工具模块，ajax模块方法时就像下面这样。
-
-        A.Util.util_method1()
-        A.Tool.tool1_method
-
+```javascript
+A.Util.util_method1()
+A.Tool.tool1_method
+```
 #### 无法修改的静态变量
 
 "看上去代码哭的结构真的很清晰了，大家使用起来更容易了"  小白说
@@ -972,57 +966,57 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 "静态变量，Javascript中不是没有静态变量么，" 小白追问
 
 "你知道，Javascript根本没有static这类关键字，所以定义任何变量理论上都是可以更改的，所以在Javascript中实现创建静态变量又变的很重要，当然Javascript很灵活，人们根据静态变脸只能方位不能修改并且无创建后就能使用这一特点，想出来一个好主意，能访问的变量定义的方式有很多，比如定义在全局空间里，或者定义一个函数内部，并定义一个特权方法访问，等等，既然不能修改，定义在全局空间里就显得很不靠谱了，而如果将变量放在一个函数内部，那必须通过特权方法访问，如果我们不提供赋值变量的方法，值提供获取变量的方法，不就可以做到限制变量的修改并且可以供外界访问的需求了么？但是还有最后一个问题就是目前放在函数内部的变量还能供外界访问，为实现创建后就能使用这一需求，我们就需要让他创建的函数执行一次，此时我们创建的对象内保存静态变量通过取值器访问，最后将这个对象作为一个单例放在全局空间里作为静态变量单例对象共他人使用"
+```javascript
+const Conf = (function(){
 
-        var Conf = (function(){
-                
-                //私有变量
-                var conf = {
-                    MAX_NUM :100,
-                    MIN_NUM :1,
-                    COUNT:1000
-                }
-                //返回取值器对象
-                return {
-                    get:function(name){
-                        return conf[name] ? conf[name] : null;
-                    }
-                }
-            })();
-
+        //私有变量
+        const conf = {
+            MAX_NUM :100,
+            MIN_NUM :1,
+            COUNT:1000
+        }
+        //返回取值器对象
+        return {
+            get:function(name){
+                return conf[name] ? conf[name] : null;
+            }
+        }
+    })();
+```
 "很奇妙啊，没有赋值器我们就不能修改内部定义的变量了那么我们想要使用创建了的静态变量，像下面这种方式就可以了吧" 小白说
-
-        var count = Conf.get('COUNT');
-        console.log(count);
-
+```javascript
+const count = Conf.get('COUNT');
+console.log(count);
+```
 #### 惰性单例
 
 "不过为什么静态变量都是大写啊？"小白问
 
 "这是一种定义习惯，在其他编程语言中静态变量都习惯大写，所以在Javascript中虽然是模拟的静态变量我们也要尊重这一使用习惯，有些时候对于单例对象需要延迟创建，所以在单例中还存在一种延迟创建的形式，有人也称之为'惰性创建'"
+```javascript
+//惰性载入单例
 
-        //惰性载入单例
-
-        var LazySingl = (function(){
-            //单例实例引用
-            var _instance = null;
-            //单例
-            function Single(){
-                /*这里定义私有属性和方法*/
-                return {
-                    publicMethod:function(){},
-                    publicProperty :1.0
-                }
-            }
-             // 获取单例独享接口
-             return function(){
-                //如果为创建单例将创建单例
-                if(!_instance){
-                    _instance = Single();
-                }
-                return _instance;
-             }
-            })();
-
+const LazySingl = (function(){
+    //单例实例引用
+    const _instance = null;
+    //单例
+    function Single(){
+        /*这里定义私有属性和方法*/
+        return {
+            publicMethod:function(){},
+            publicProperty :1.0
+        }
+    }
+        // 获取单例独享接口
+        return function(){
+        //如果为创建单例将创建单例
+        if(!_instance){
+            _instance = Single();
+        }
+        return _instance;
+        }
+    })();
+```
 我们测试一下可以看出通过LazySingle对象可以成功获取内部创建的单例对象了
 
 >console.log(LazySingle().publicProperty);//1.0
@@ -1053,23 +1047,23 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 "怎么了。"
 
 "我看一下你的代码"
+```javascript
+document.onclick = function(){
+    e.preventDefault();
+    if(e.target !== document.getElementById('myinput'));
+    hidePageAlert();
+}
 
-        document.onclick = function(){
-            e.preventDefault();
-            if(e.target !== document.getElementById('myinput'));
-            hidePageAlert();
-        }
-
-        function hidePageAlert(){
-            //隐藏提示框
-        }
-
+function hidePageAlert(){
+    //隐藏提示框
+}
+```
 "首先，你为document绑定了onclick事件，但是你知道onclick是DOM0级事件，也就是说这种方式绑定的事件相当于为元素绑定一个事件方法，所以如果我们团队中有人再次通过这种方式为document绑定click事件，就相当于重复定义了一个方法，会将你定义的click事件方法覆盖，如下列程序"
-
-        document.onclick = function(){
-            //其他开发人员重新为document绑定事件会覆盖前面定义的DOM 0 级click事件
-        }
-
+```javascript
+document.onclick = function(){
+    //其他开发人员重新为document绑定事件会覆盖前面定义的DOM 0 级click事件
+}
+```
 "所以你这种方式是很危险的，因此你应该用DOM2级事件吃力程序提供的方法addEventListener来是实现，然而你知道老版本的IE浏览器(低于9)是不支持这个方法的，所以你要用attachEvent，当然如果有不支持DOM2级事件处理程序的浏览器，你只能用onclick事件方法绑定事件"
 
 "如此看来为元素绑定一个事件真不是一件容易的事，我们要做这么多的事情，有没有一个兼容所有浏览器的方式呢?" 小白问
@@ -1077,109 +1071,109 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 #### 兼容方式
 
 小明微笑道:"当然有了，我们可以用外观模式来封装他们，这就想每天中午我们急冲冲的去餐厅吃饭，人很多，不论是餐厅点餐员还是作为顾客的我们，大家都想尽量节约时间，以尽可能少的成本完成我们点餐吃饭的整个流程，所以通常的做法是去点套餐，这就很简洁明了，比如鱼香肉丝饭套餐，会为我们提供米饭、菜甚至饮料等。当然我们就不用再浏览遍历每一种菜，主食点什么，饮料要买哪种等，因为套餐已经为我们定制好了，那么在Javascript中也可以通过一个'套餐'来简化复杂的要求，比如我们统一功能接口方法的不同意，我们可以通过外观像点套餐那样定义一个统一接口方法，这样就提供了一更简单的高级接口，简化了我们队复杂的底层接口不统一的使用需求，根据这一思想我们就可以按照如下方式简化我们事件的绑定"
+````javascript
+//外观模式实现
+function addEvent(dom,type,fn){
+    //对于支持DOM2 级事件处理程序addEventListener方法的浏览器
+    if(dom.addEventListener){
+        dom.addEventListener(type,fn,false);
+    }else if (dom.attachEvent){
+        //对于不支持addEventListener方法但支持attachEvent方法的浏览器
+        dom.attachEvent('on' + type,fn)
 
-        //外观模式实现
-        function addEvent(dom,type,fn){
-            //对于支持DOM2 级事件处理程序addEventListener方法的浏览器
-            if(dom.addEventListener){
-                dom.addEventListener(type,fn,false);
-            }else if (dom.attachEvent){
-                //对于不支持addEventListener方法但支持attachEvent方法的浏览器
-                dom.attachEvent('on' + type,fn)
-
-            }else{
-                //对于不止addEventListener方法也不支持attachEvent方法，但支持on + '事件名'的浏览器
-                dom['on' + type ] = fn;
-            }
-
+    }else{
+        //对于不止addEventListener方法也不支持attachEvent方法，但支持on + '事件名'的浏览器
+        dom['on' + type ] = fn;
+    }
+```
 "这样我们以后对于支持addEventListener或attachEvent方法的浏览器就可以放心的绑定多个事件了"
-
-        var myInput = document.getElementById('myinput');
-        addEvent(myInput,'click',function(){
-            console.log('绑定第一个事件')
-        })
-        addEvent(myInput,'click',function(){
-            console.log('绑定第二个事件')
-        })
-        addEvent('myInput','click',function(){
-            console.log('绑定第三个事件')
-        })
-
+```javascript
+const myInput = document.getElementById('myinput');
+addEvent(myInput,'click',function(){
+    console.log('绑定第一个事件')
+})
+addEvent(myInput,'click',function(){
+    console.log('绑定第二个事件')
+})
+addEvent('myInput','click',function(){
+    console.log('绑定第三个事件')
+})
+```
  "如此一来，在团队开发中就能安心的为元素绑定事件了" 小白感叹道
- 
+
  #### 除此之外
 
-"不过你之前写的代码问题不止这一个，之前说了，外观模式可以简化底层接口复杂性，也可以解决浏览器兼容性问题，而你前面写的代码除了绑定事件问题外，另外两处问题是在其他IE低版本浏览器中不兼容e.preventDefault()和e.target你也可以通过外观模式来解决"       
-
-        //获取事件对象
-        var getEvent = function(event){
-            //标准浏览器返回event,IE下window.event
-            return event || window.event
-        }
-        //获取元素
-        var getTarget = function(event){
-            var event = getEvent(event);
-            //标准浏览器下event.target,IE下event.srcElement
-            return event.target || event.srcElement;
-        }
-        //阻止默认行为
-        var preventDefault = function(event){
-            var event = getEvent(event);
-            //标准浏览器
-            if(event.preventDefault){
-                event.preventDefault();
-            }else{
-                event.returnValue = false;
-            }
-        }
-
+"不过你之前写的代码问题不止这一个，之前说了，外观模式可以简化底层接口复杂性，也可以解决浏览器兼容性问题，而你前面写的代码除了绑定事件问题外，另外两处问题是在其他IE低版本浏览器中不兼容e.preventDefault()和e.target你也可以通过外观模式来解决"
+```javascript
+//获取事件对象
+const getEvent = function(event){
+    //标准浏览器返回event,IE下window.event
+    return event || window.event
+}
+//获取元素
+const getTarget = function(event){
+    const event = getEvent(event);
+    //标准浏览器下event.target,IE下event.srcElement
+    return event.target || event.srcElement;
+}
+//阻止默认行为
+const preventDefault = function(event){
+    const event = getEvent(event);
+    //标准浏览器
+    if(event.preventDefault){
+        event.preventDefault();
+    }else{
+        event.returnValue = false;
+    }
+}
+```
 "有了上面的方法我们就可以用兼容的简单方式来解决上面的问题了"
-
-        document.onclick = function(e){
-            //阻止默认行为
-            preventDefault(e);
-            //获取事件源目标对象
-            if(getTarget(e) !== document.getElementById('myInput')){
-                hideInputSug();
-            }
-        }
-
+```javascript
+document.onclick = function(e){
+    //阻止默认行为
+    preventDefault(e);
+    //获取事件源目标对象
+    if(getTarget(e) !== document.getElementById('myInput')){
+        hideInputSug();
+    }
+}
+```
 #### 小型代码库
 
 "小白，外观模式可以将浏览器不兼容的方法变得简单而又兼容各个浏览器，然而这只是外观模式应用的一部分，很多代码库中都是通过外观模式来封装多个功能，简化底层操作方法，比如我们简单实现获取元素的属性样式的简单方法库"
-
-        var A  = {
-            //通过ID获取元素
-            g : function(id){
-                return document.getElementById(id);
-            },
-            //设置元素css属性
-            css:function(id,key,value){
-                document.getElementById(id).style[key] = value;
-            },
-            //设置元素的属性
-            attr:function(id,key,value){
-                document.getElementById(id)[key] = value;
-            },
-            html:function(id,html){
-                document.getElementById(id).innerHTML = html;
-            },
-            //为元素绑定事件
-            on:function(id,type,fn){
-                document.getElementById(id)['on' + type ] = fn;
-            }
-        }
-
+```javascript
+const A  = {
+    //通过ID获取元素
+    g : function(id){
+        return document.getElementById(id);
+    },
+    //设置元素css属性
+    css:function(id,key,value){
+        document.getElementById(id).style[key] = value;
+    },
+    //设置元素的属性
+    attr:function(id,key,value){
+        document.getElementById(id)[key] = value;
+    },
+    html:function(id,html){
+        document.getElementById(id).innerHTML = html;
+    },
+    //为元素绑定事件
+    on:function(id,type,fn){
+        document.getElementById(id)['on' + type ] = fn;
+    }
+}
+```
 
 "通过这个代码库，我们再操作元素的属性样式时变得更简单"
-
-        A.css('box','background','red')//设置css样式
-        A.attr('box','className','box')//设置class
-        A.html('box','这是新添加的内容')//设置内容
-        A.on('box','click',function(){//绑定事件
-            A.css('box','width','500px');
-        })
-
+```javascript
+    A.css('box','background','red')//设置css样式
+    A.attr('box','className','box')//设置class
+    A.html('box','这是新添加的内容')//设置内容
+    A.on('box','click',function(){//绑定事件
+        A.css('box','width','500px');
+    })
+```
 #### 忆之获
 
 当一个复杂的系统提供一系列复杂的接口方法时，为系统的管理方便会造成接口方法的使用极其复杂，这在团队的多人开发中，撰写成本是很大的，当然通过外观模式，对接口的二次封装隐藏其复杂性，并简化其使用是一种很不错的实践，当然这种实践增加了一些资源开销以及程序的复杂度，当然这种开销相对于使用成本来说有时也是可忽略的。
@@ -1200,14 +1194,13 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 "小白，咱们的作品活动页面还在用我们公司内部开发的A矿建，可是很多新来的同事使用A矿建开发新的功能需求时总是感觉很吃力，而且能用的方法有限，为了让他们尽快融入项目的开发， 我想让你引入jquery框架没问题吧" 小明对小白说
 
 "没问题，" 小白看了一眼代码，迟疑一下 "可是以前功能缩写的代码是不是我还要重新用jquery写一遍，比如像这里引入的事件"
-
-        A(function(){
-            A('button').on('click',function(e){
-                //.....
-                })
-            })
-
-
+```javascript
+    A(function(){
+        A('button').on('click',function(e){
+            //.....
+        })
+    })
+```
 "不用啊，咱么公司的A框架与jquery框架比较像，所以你简单写个适配器就可以了"
 
 "适配器，" 小白不解，"那是什么东西"
@@ -1222,7 +1215,7 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 
 "你看我们公司的A框架代码书写格式是不是与Jquery代码书写格式很想，所以你需要在加载完jquery框架后写一个适配器，将我们已有的功能适配到jquery，比如代码中有两个事件，一个页面加载事件，一个点击事件，不过这两个事件与Jquery中的写法很像，所以这里就不用做多少改动了，我们的适配器主要的任务是适配两种代码库中不兼容的代码，那么首当其冲的就是全局对象A与jquery了，所以你可以像下面这样轻松实现"
 
->window.A = A = jquery
+`window.A = A = jquery`
 
 "小白，你刷新页面看看是不是运行良好" 小明笑着问
 
@@ -1232,52 +1225,52 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 
 "恩，这是因为咱么公司的整个轻量级的A框架太像jquery了，我们可以将两种框架看成是相似框架，但是如果一个框架与jquery血缘远一点，那么对于这种异类框架适配情况就复杂得多了，举个例子吧，还是实现上面两个事件，所以我写了一个这样的框架"
 
+```javascript
+    const A = A || {};
 
-        var A = A || {};
-
-        //通过ID获取元素
-        A.g = function(id){
-            return document.getElementById(id);
+    //通过ID获取元素
+    A.g = function(id){
+        return document.getElementById(id);
+    }
+    //为元素绑定事件
+    A.on = function(id,type,fn){
+        //如果传递参数是字符串则以ID处理，否则以元素对象处理
+        const dom = typeof id === 'string' ? this.g(id) : id;
+        //标准DOM2级添加时间方式
+        if(dom.addEventListener){
+            dom.addEventListener(type,fn,false);
+        }else{
+            //IE 标准DOM2级添加事件方式
+            dom.attachEvent('on' + type,fn);
+        }else{
+            dom['on' + type ] = fn;
         }
-        //为元素绑定事件
-        A.on = function(id,type,fn){
-            //如果传递参数是字符串则以ID处理，否则以元素对象处理
-            var dom = typeof id === 'string' ? this.g(id) : id;
-            //标准DOM2级添加时间方式
-            if(dom.addEventListener){
-                dom.addEventListener(type,fn,false);
-            }else{
-                //IE 标准DOM2级添加事件方式
-                dom.attachEvent('on' + type,fn);
-            }else{
-                dom['on' + type ] = fn;
-            }
-        }
-
+    }
+```
 "那么要完成上面的需求我们可以这样做"
-
-        //窗口加载完成事件
-        A.on('window','load',function(){
-            //按钮点击事件
-            A.on('mybutton','click',function(){
-                //do something    
-            })
+```javascript
+    //窗口加载完成事件
+    A.on('window','load',function(){
+        //按钮点击事件
+        A.on('mybutton','click',function(){
+            //do something
         })
-
+    })
+```
 "好了，小白，那么我想引入jquery来还原有的ID苦，你只该如何做么？"
 
 小白思考了以下说:"首先g方法是通过ID获取元素，所以通过$(jquery的简写名称)方法获取jquery对象然后通过get获取第一个成员即可，不过on方法有些复杂，我们不能直接替换，因为jquery和我们A库在通过ID获取元素时时有区别的，jquery的ID前面要加#所以异类矿建的适配器应该是这样的吧"
 
-
-        A.g = function(id){
-            return $(id).get(0);//通过jquery获取jquery对象，然后返回第一个成员
-        }
-        A.on = function(id,type,fn){
-            //如果传递参数是字符串则以ID处理，否则以元素对象处理
-            var dom = typeof id === 'string' ? $('#'+id):$(id);
-            dom.on(type,fn);
-        }
-
+```javascript
+    A.g = function(id){
+        return $(id).get(0);//通过jquery获取jquery对象，然后返回第一个成员
+    }
+    A.on = function(id,type,fn){
+        //如果传递参数是字符串则以ID处理，否则以元素对象处理
+        const dom = typeof id === 'string' ? $('#'+id):$(id);
+        dom.on(type,fn);
+    }
+```
 "你还是很聪明的，是这样，通过适配器我们发现如果两种框架的'血缘'比较相近，那么我们适配起来是比较容易的，如果'血缘'相差甚远我们的适配器写起来要复杂的多，因此你要记住，日后飞到万不得已请情况下，尽量引入相似框架"
 
 "是啊，后一种要写不少代码啊" 小白补充说
@@ -1289,88 +1282,86 @@ javascript中实现工厂方法模式我们只需要参考它的核心思想即�
 >function doSomething(name,title,age,color,size,prize){}
 
 "那么我们记住这些参数的顺序是很困难的，所以我们经常是以一个参数对象方式传入的"
-
-        /**
-         * obj.name:name
-         *obj.title:title
-         *obj.age:age
-         *obj.color:color
-         *obj.size:size
-         *obj.prize:prize
-         */
-
->function doSomething(obj){}
-
+```javascript
+/**
+    * obj.name:name
+    *obj.title:title
+    *obj.age:age
+    *obj.color:color
+    *obj.size:size
+    *obj.prize:prize
+    */
+function doSomething(obj){}
+```
 "然而当调用它的时候又不知道传递的参数是否完成，如有一些参数没有传入，一些参数是有默认值的等等，此时我们通常的做法就是用适配器来适配传入的这个参数对象，如下所示"
+```javascript
+function doSomething(obj){
+    const _adapter = {
+        name:"雨夜清荷",
+        title:"设计模式",
+        age:24,
+        color:"pink",
+        size:100,
+        prize:50
+    };
+    for(const i in _adapter){
+        _adapter[i] = obj[i] || _adapter[i];
+    }
+    //或者extend(_adapter,obj) 注此时可能会多添加属性
+    //do things
+}
 
-        function doSomething(obj){
-            var _adapter = {
-                name:"雨夜清荷",
-                title:"设计模式",
-                age:24,
-                color:"pink",
-                size:100,
-                prize:50
-            };
-            for(var i in _adapter){
-                _adapter[i] = obj[i] || _adapter[i];
-            }
-            //或者extend(_adapter,obj) 注此时可能会多添加属性
-            //do things
-        }
-
-
+```
 #### 数据适配
 
 "没看出你接触过插件开发" 小明接着说"对于这类对参数的适配又有衍生，比如数据的适配，比如这有一个数组"
 
->var arr = ['Javascript,'book','前端编程语言','8月1日'];
+>const arr = ['Javascript,'book','前端编程语言','8月1日'];
 
 "我们发现数组中的每个成员代表的意义不同，所以这种数据结构语义不好，我们通常将其适配成对象格式，比如下面这种对象数据结构"
 
->var obj = {
->       name:"",
->       type:"",
->       title:"",
->       time:""
->    
->}
+`const obj = {
+  name:"",
+  type:"",
+  title:"",
+  time:""
+}`
 
 "我们就可以像下面这样适配"
-        
-        function arrToObjAdapter(arr){
-            return {
-                name:arr[0],
-                type:arr[1],
-                title:arr[2],
-                data:arr[3]
-            }
-        }
+```javascript
+function arrToObjAdapter(arr){
+    return {
+        name:arr[0],
+        type:arr[1],
+        title:arr[2],
+        data:arr[3]
+    }
+}
 
-        var adapterData = arrToObjAdapter(arr);
-        console.log(adapterData) //{name:"javascript",type:"book",title:"前端编程语言",data:"8月1日"}
-
+const adapterData = arrToObjAdapter(arr);
+console.log(adapterData) //{name:"javascript",type:"book",title:"前端编程语言",data:"8月1日"}
+```
 "这也为数据的灵活使用提供了新思路了" 小白感叹道
 
 #### 服务器端数据适配
 
 "是啊" 小明接着说"但是，你知道么， 最重要的是它解决了前后端的数据依赖，前端程序不再为后端传递的数据所束缚，如果后端因为架构改变导致传递的数据结构发生变化，我们只需要写个适配器就可以放心了，比如我们用jquery想后端someAdress.php接口请求数据，然后用dosomething方法处理接收的格式，我们在调用dosomething方法时最好不哟啊直接调用，最好先将传递过来的数据适配成对我们可有的数据在使用，这样将更安全，如下面的例子"
-
-        //为简化模型，这里使用Jquery的Ajax方法，理想数据是一个一维数组
-        function ajaxAdapter(data){
-            //处理数据并返回新数据
-            return [data['key1'],data['key2'],data['key3']];
-        }
-        $.ajax({
-            url:'something.php',
-            success:function(data,status){
-                if(data){
-                    //使用适配后的数据--- 返回的对象
-                    doSomething(ajaxAdapter(data))
-                }
+```javascript
+    //为简化模型，这里使用Jquery的Ajax方法，理想数据是一个一维数组
+    function ajaxAdapter(data){
+        //处理数据并返回新数据
+        return [data['key1'],data['key2'],data['key3']];
+    }
+    $.ajax({
+        url:'something.php',
+        success:function(data,status){
+            if(data){
+                //使用适配后的数据--- 返回的对象
+                doSomething(ajaxAdapter(data))
             }
-        });
-
+        }
+    });
+```
 "像这样。如果日后后端数据有任何变化我们只需响应的更改ajaxAdapter适配器转化格式就可以了"
 
 
@@ -1394,18 +1385,18 @@ Javascript中的适配器的应用，更多应用在对象之间，为了使对�
 #### 无法获取图片上传模块数据
 
 "小名 你帮我看看，为什么我向咱们图片上传模块所在的服务器发送的请求，得不到数据呢？" 小白问小明道
-
-        //当前域www.xx.com
-        $.ajax({
-            url:http;//upload.xx.com/upload.php,
-            success:function(res){
-                //无法获取返回的数据
-            }    
-        })
-
+```javascript
+//当前域www.xx.com
+$.ajax({
+    url:http;//upload.xx.com/upload.php,
+    success:function(res){
+        //无法获取返回的数据
+    }
+})
+```
 "打开你的控制台，你发现没有，已经报错了，出现蛞蝓问题了"
 
->//浏览器控制台报错，XMLHttprequest cannot load http://upload.xx.com/upload.php no 'Access-Control-Allow-Origin' header is present on the requested resource
+`>//浏览器控制台报错，XMLHttprequest cannot load http://upload.xx.com/upload.php no 'Access-Control-Allow-Origin' header is present on the requested resource`
 
 #### 一切只因跨域
 
@@ -1432,45 +1423,45 @@ Javascript中的适配器的应用，更多应用在对象之间，为了使对�
 "你说的还挺有意思的，不过这类代理对象有什么应用啊" 小白问
 
 "很多啊，比如一些站长平台会有对于你的页面的统计项，其实现原理就是在你的页面触发一些动作的时候向站长平台发送这类img的get请求，然后他们会对你发的请求做统计，然而你并不知道统计的相关消息" 小明解释道
-
+```javascript
         //统计代理
-        var Count = (function(){
-            //缓存图片，
-            var img = new Image();
-            return function(param){
-                //统计请求字符串
-                var str = 'http://www.count.com/a.gif';
-                //拼接请求字符串
-                for(var i in param){
-                    str += i + '=' + param[i];
-                }
-                //发送统计请求
-                img.src= str;
-            }
-            })()
-            //测试用例，统计num
-            Count(num:10);
-
+const Count = (function(){
+//缓存图片，
+const img = new Image();
+  return function(param){
+    //统计请求字符串
+    const str = 'http://www.count.com/a.gif';
+    //拼接请求字符串
+    for(const i in param){
+        str += i + '=' + param[i];
+    }
+    //发送统计请求
+    img.src= str;
+  }
+})();
+//测试用例，统计num
+Count(num:10);
+```
 
 #### JSONP
 
 "第二种代理对象形式就是通过script标签，比如我们在CDN(内容分发网络，一种更接近用户的网络架构，是用户可以就近获取内容)上更快速的获取jquery文件时，用script来获取，然而这种获取方式获取的script内容是不变的，而我们需要的代理对象，是对页面与浏览器间痛下的，显然上面的方式还不能满足我们的需求，不过我们知道通过src属性可实现get请求，因此我们可以在src指向的url(请求地址)上面添加一些字段信息，然后服务器端获取这些字段，再响应的生成一份内容"
-
-        //前端浏览器页面
-        <script type="text/javascript">
-        //回调函数，打印出请求数据与响应数据
-        function jsonpCallBack(res,req){
-            console.log(res,req);
-        }
-        </script>
-        <script type="text/javascript" src="http://localhost/test/jsonp.php?callback=jsonp CallBack&data=getJsonPData"></script>
-        //另外一个域下服务器请求接口
-        <?php
-        //后端获取请求字段数据，并生成返回内容
-        $data = $_GET['data'];
-        $callback = $_GET['callback'];
-        echo $callback."('success','".$data."')"
-
+```php
+//前端浏览器页面
+<script type="text/javascript">
+//回调函数，打印出请求数据与响应数据
+function jsonpCallBack(res,req){
+    console.log(res,req);
+}
+</script>
+<script type="text/javascript" src="http://localhost/test/jsonp.php?callback=jsonp CallBack&data=getJsonPData"></script>
+//另外一个域下服务器请求接口
+<?php
+//后端获取请求字段数据，并生成返回内容
+$data = $_GET['data'];
+$callback = $_GET['callback'];
+echo $callback."('success','".$data."')"
+```
 这种方式，你可以想象成合理面的一只小船，通过小船将你的请求发送给对岸，然后对岸的人们将数据放在小船里为你带回来
 
 "哦，那这种方式就需要其他域下的服务器端与前端协同工作开发功能了吧"
@@ -1484,71 +1475,71 @@ Javascript中的适配器的应用，更多应用在对象之间，为了使对�
 "是的，比如我们将自己的域成为X域，另外的域成为Y域X域中要有一个呗dialing页面即A页面，在A页面中应该具备三个部分，第一个部分是发送请求的模块，如form表单提交，负责向Y域发送请求，并提供额外两组数据，其一是要执行的回调函数名称，其二是X域中代理模板所在的路径，并将target目标指向内嵌框架，第二个部分是一个内嵌框架，如iframe负责提供第一个部分中form表单的响应目标targe的指向，并将嵌入X域中的代理页面作为子页面，即B页面，第三个部分是一个回调函数，负责处理返回的数据"
 
 X域中被代理页面A
+```html
+<script type="text/javascript">
+    function callback(data){
+        console.log('成功接收数据',data);
+    }
+</script>
+<iframe name="proxyIframe" id="proxyIframe" src="">
 
-        <script type="text/javascript">
-            function callback(data){
-                console.log('成功接收数据',data);
-            }
-        </script>
-        <iframe name="proxyIframe" id="proxyIframe" src="">
+</iframe>
 
-        </iframe>
-
-        <form action="http://localhost/test/proxy.php" method ="post" target="proxyIframe">
-            <input type="text" name="callback" value="callback" placeholder="">
-            <input type="text" name="proxy" value="http://localhost:8080/proxy.html" placeholder="">
-            <input type="submit" name="" value="提交" placeholder="">
-        </form>
-
+<form action="http://localhost/test/proxy.php" method ="post" target="proxyIframe">
+    <input type="text" name="callback" value="callback" placeholder="">
+    <input type="text" name="proxy" value="http://localhost:8080/proxy.html" placeholder="">
+    <input type="submit" name="" value="提交" placeholder="">
+</form>
+```
 "其次在X域中我们也要有一个代理页面，主要负责将自己页面URL中searcher部分的数据解析出来，如http://www.a.com?type=1&title=aa这个URL中searcher部分指的是就是?type=1&title=aa 将数据重新组装好，调用A页面里的回调函数，将组装好的数据作为参数传入父页面中定义的花掉函数中并执行"
 
 X域中代理页面B
 
-        
-        <script type="text/javascript">
-            //页面加载后执行
+```html
+<script type="text/javascript">
+    //页面加载后执行
 
-            window.onload = function(){
-                //如果不在A页面中返回，不执行
-                if(top == self) return 
-                //获取并解析searcher中的数据
-                var arr = location.search.substr(1).split('&'),
-                //预定义函数名称以及参数集
-                fn,args;
-                for(var i = 0; i < arr.length; i ++){
-                    //解析searcher中的魅族数据
-                    item = arr[i].split('=');
-                    //判断是否为回调函数
-                    if(item[0] =='callback'){
-                        /设置回调函数
-                        fn = item[i];
+    window.onload = function(){
+        //如果不在A页面中返回，不执行
+        if(top == self) return
+        //获取并解析searcher中的数据
+        const arr = location.search.substr(1).split('&'),
+        //预定义函数名称以及参数集
+        fn,args;
+        for(const i = 0; i < arr.length; i ++){
+            //解析searcher中的魅族数据
+            item = arr[i].split('=');
+            //判断是否为回调函数
+            if(item[0] =='callback'){
+                /设置回调函数
+                fn = item[i];
 
-                        //判断是否是参数集
+                //判断是否是参数集
 
-                    }else if(item[0] == 'arg'){
-                        //设置参数集
-                        args =item[1];
-                    }
-                }
-                try{
-                    //执行A页面中预设的回调函数
-                    eval('top' + fn + '("' + args + '")');
-                }catch (e){
-
-                }
+            }else if(item[0] == 'arg'){
+                //设置参数集
+                args =item[1];
             }
-        </script>
+        }
+        try{
+            //执行A页面中预设的回调函数
+            eval('top' + fn + '("' + args + '")');
+        }catch (e){
 
+        }
+    }
+</script>
+```
 "最后是Y域中的呗请求的接口文件C，它的主要工作室将从X域过来的请求，数据解析并获取回调函数字段与代理模板路径字段数据，并打包返回，并将自己的Header重定向为X域的代理模板B所在路径"
-
-            <?php 
-            $proxy = $_POST['proxy'];
-            $callback = $_POST['callback'];
-            header("Location: " .$proxy.?callback=".$callback." & arg=success);?>
-
+```php
+<?php
+$proxy = $_POST['proxy'];
+$callback = $_POST['callback'];
+header("Location: " .$proxy.?callback=".$callback." & arg=success);?>
+```
 测试结果
-        
-            /*控制台输出依次是，成功接收数据success*/ 
+
+`/*控制台输出依次是，成功接收数据success*/`
 
 ### 忆之获
 
@@ -1571,26 +1562,26 @@ X域中代理页面B
 "小白"，项目经理走过来，"用户信息表单需求有些变化，以前是当用户点击输入框时，如果输入框输入的内容有限制，那么气后面显示用户输入内容的限制格式的提示文案，现在我们要多加一条，默认输入框上边显示一行提示文案，当用户点击输入框时文案消失"
 
 小白一听心想:"这很简单，找到对应的代码，然后在后面增加几句就可以了嘛"，于是小白浏览一下前任写过的代码。
-
-    //输入框元素
-    var telInput = document.getElementById('tel_input');
-    //输入格式提示文案
-    var telWranText = document.getElementById('tel_wran_text');
-    //点击输入框显示输入框输入格式提示文案
-    input.onclick = function(){
-        telWranText.style.display = 'inline-block';
-    }
-    //于是小白不假思索的修改了这些写过的代码
-    //输入框元素
-    var telInput = document.getElementById('tel_input');
-    //输入框输入格式提示文案
-    var telWranText = document.getElementById('tel_warn_text');
-    //点击输入框显示输入框输入格式提示文案并隐藏输入提示文案
-    input.onclick = function(){
-        telWranText.style.display = 'inline-block';
-        telDemoText.style.display = 'none';
-    }
-
+```javascript
+//输入框元素
+const telInput = document.getElementById('tel_input');
+//输入格式提示文案
+const telWranText = document.getElementById('tel_wran_text');
+//点击输入框显示输入框输入格式提示文案
+input.onclick = function(){
+  telWranText.style.display = 'inline-block';
+}
+//于是小白不假思索的修改了这些写过的代码
+//输入框元素
+const telInput = document.getElementById('tel_input');
+//输入框输入格式提示文案
+const telWranText = document.getElementById('tel_warn_text');
+//点击输入框显示输入框输入格式提示文案并隐藏输入提示文案
+input.onclick = function(){
+  telWranText.style.display = 'inline-block';
+  telDemoText.style.display = 'none';
+}
+```
 可是悲剧发生了，小白修改了一个电话输入框，后面还有姓名输入框，地址输入框，等等，还要像电话输入框这样在文件中查找功能代码，然后一个一个修改么？ 小白皱起眉头。
 
 小明看到后，走过来:"小白，怎么了"
@@ -1608,46 +1599,46 @@ X域中代理页面B
 "我明白一些了，不过我要如何实现呢？"
 
 "首先明确原有的功能是那些，看看你已经写过的功能代码，这些就是原有的功能，你要做的就是在这基础上添加一些功能来满足用户提出的需求"
-
-    //装饰者
-    var decorator = function(input,fn){
-        //获取事件源目标对象
-        var input = document.getElementById(input);
-        //若时间源已经绑定事件
-        if(typeof input.onclick ==='function'){
-            //缓存时间源原有回调函数
-            var oldClick = input.onclick;
-            //为事件源定义新的事件
-            input.onclick = function(){
-                //事件源原有回调函数
-                oldClick();
-                //执行事件源新增回调函数
-                fn();
-            }
-        }else{
-            //事件源为绑定事件，直接为事件源添加新增回调函数
-            input.onclick = fn;
-        }
-        //做其他事情
+```javascript
+//装饰者
+const decorator = function(input,fn){
+//获取事件源目标对象
+const input = document.getElementById(input);
+//若时间源已经绑定事件
+if(typeof input.onclick ==='function'){
+//缓存时间源原有回调函数
+  const oldClick = input.onclick;
+//为事件源定义新的事件
+  input.onclick = function(){
+    //事件源原有回调函数
+    oldClick();
+//执行事件源新增回调函数
+    fn();
     }
-
+}else{
+//事件源为绑定事件，直接为事件源添加新增回调函数
+  input.onclick = fn;
+}
+//做其他事情
+}
+```
 #### 为输入框添砖加瓦
 
-"看看上面的代码，此时装饰者不仅仅可以对绑定过事件的输入框添加新的功能，未绑定过的输入框同样可以，你可以像下面这样调用" 
-
-    //电话输入框功能装饰
-    decorator('tel_input',function(){
-        document.getElementById('tel_demo_text').style.display = 'none';    
-    })
-    //姓名输入框功能装饰
-    decorator('name_input',function(){
-        document.getElementById('name_demo_text').style.display = "none";    
-    });
-    //地址输入框功能装饰
-    decorator('adress_input',function(){
-        docuemnt.getElementById('address_demo_text').style.display = "none";    
-    });
-
+"看看上面的代码，此时装饰者不仅仅可以对绑定过事件的输入框添加新的功能，未绑定过的输入框同样可以，你可以像下面这样调用"
+```javascript
+//电话输入框功能装饰
+decorator('tel_input',function(){
+  document.getElementById('tel_demo_text').style.display = 'none';
+})
+//姓名输入框功能装饰
+decorator('name_input',function(){
+  document.getElementById('name_demo_text').style.display = "none";
+});
+//地址输入框功能装饰
+decorator('adress_input',function(){
+  docuemnt.getElementById('address_demo_text').style.display = "none";
+});
+```
 "真是太棒了，通过使用装饰者对象方法，无论输入框是否绑定过事件，都可以轻松完成增加隐藏示例框的需求，真的很不错，" 小白感叹道
 
 "装饰者模式很简单，就是对原有对象的属性与方法的添加"
@@ -1679,29 +1670,31 @@ X域中代理页面B
 小白接着说:"哎，不过用户信息有很多小部件组成，你看，对于用户名，鼠标划过直接改变背景色，但是像用户等级，用户信息这类不见只能改变里边的数字内容，处理的逻辑不太一样，所以写了不少代码，不过写完时，自己柑橘很多是陈宇的，却又不知道该如何改善"
 
 "哦，来让我看看你的代码吧"
+```javascript
+const spans = document.getElementsByTagName('span');
+//为用户绑定特效
+spans[0].onmouseover = function(){
+  this.style.color = 'red';
+  this.style.background= '#ddd';
+}
+  spans[0].onmouseout = function(){
+  this.style.color = '#333';
+  this.style.background = '#f5f5f5';
+}
+```
+//为等级绑定特效
+```javascript
+spans[1].onmouseover =function(){
+  this.getElementsByTagName('strong')[0].style.color = 'red';
 
-    var spans = document.getElementsByTagName('span');
-    //为用户绑定特效
-    spans[0].onmouseover = function(){
-        this.style.color = 'red';
-        this.style.background= '#ddd';
-    }
-    spans[0].onmouseout = function(){
-        this.style.color = '#333';
-        this.style.background = '#f5f5f5';
-    }
+  this.getElementsByTagName('strong')[0].style.background="#ddd";
+}
+spans[1].onmouseout = function(){
+  this.getElementsByTagName('strong')[0].style.color='#333;
 
-    //为等级绑定特效
-
-    spans[1].onmouseover =function(){
-        this.getElementsByTagName('strong')[0].style.color = 'red';
-        this.getElementsByTagName('strong')[0].style.background="#ddd";
-    }
-    spans[1].onmouseout = function(){
-        this.getElementsByTagName('strong')[0].style.color='#333;
-        this.getElementsByTagName('strong')[0].style.background="#f5f5f5";
-    }
-
+  this.getElementsByTagName('strong')[0].style.background="#f5f5f5";
+}
+```
 ### 提取共同点
 
 "看你的代码是有点，不过你知道你的问题在那里么？"
@@ -1709,40 +1702,40 @@ X域中代理页面B
 "要对事件的回调函数再做处理么?" 小白问小明道
 
 "恩，你在写代码时一定要注意对相同的逻辑做抽象提取处理，这一点很重要，如果这一点你能做到，那么你的代码将会更加简洁，重用率也会更大，当然可读性更高，这也是我推荐你使用面向对象思想编程的一个目的" 小明接着说:"对于用户信息模块的每一个部分鼠标划过与鼠标离开两个事件的执行函数由很大一部分是相似的，比如他们都处理每个部件中的某个元素，他们都是处理改元的字体颜色和背景颜色，所以对于这个相似点的抽象提取是很有必要的，因此你可以创建下面这样一个函数，让它解除与事件中的this的耦合"
-
-    //抽象
-    function changeColor(dom,color,bg){
-        //设置元素的字体颜色
-        dom.style.color = color;
-        dom.style.background = bg;
-    }
-
+```javascript
+//抽象
+function changeColor(dom,color,bg){
+//设置元素的字体颜色
+  dom.style.color = color;
+  dom.style.background = bg;
+}
+```
 #### 事件与业务逻辑之间的桥梁
 
-"剩下你要做的就是对元素进行绑定事件了，但是有一点你要明白，仅仅知道元素事件绑定与抽象提起的设置样式方法changeColor还是不够的，你需要用一个方法将它们链接起来，那么这个方法就是桥接方法，这种模式就是桥接魔爱黑丝，就像你在北京开着车去沈阳旅游，那么你就要找到一条连接北京与沈阳的公路，才能顺利的两地王法"，小明接着说:"那么对于事件的桥接方法，我们可以用一个匿名函数代替，否则直接将changeColor作为事件的回调函数，那么我们刚才所作的事情就白做了，因为它们还将耦合在一起，如下面的用户绑定事件"    
-
-    var spans = document.getElemensByTagName('span');
-    spans[0].onmouseover = function(){
-        changeColor(this,'red','#ddd');
-    }
-
-"changeColor方法中的dom实质上是事件回调函数汇总的this,那么我们想接触它们之间的耦合，我们就需要一个桥接方法---匿名回调函数，通过这个回调函数我们将获取到的this传递到changeColor函数中，即可实现需求，同样对于用户名模块的鼠标一开事件用同样的方式即可"  
-
-    spans[0].onmouseout = function(){
-        changeColor(this,'#333','#f5f5f5');
-    }
-
+"剩下你要做的就是对元素进行绑定事件了，但是有一点你要明白，仅仅知道元素事件绑定与抽象提起的设置样式方法changeColor还是不够的，你需要用一个方法将它们链接起来，那么这个方法就是桥接方法，这种模式就是桥接魔爱黑丝，就像你在北京开着车去沈阳旅游，那么你就要找到一条连接北京与沈阳的公路，才能顺利的两地王法"，小明接着说:"那么对于事件的桥接方法，我们可以用一个匿名函数代替，否则直接将changeColor作为事件的回调函数，那么我们刚才所作的事情就白做了，因为它们还将耦合在一起，如下面的用户绑定事件"
+```javascript
+const spans = document.getElemensByTagName('span');
+spans[0].onmouseover = function(){
+  changeColor(this,'red','#ddd');
+}
+```
+"changeColor方法中的dom实质上是事件回调函数汇总的this,那么我们想接触它们之间的耦合，我们就需要一个桥接方法---匿名回调函数，通过这个回调函数我们将获取到的this传递到changeColor函数中，即可实现需求，同样对于用户名模块的鼠标一开事件用同样的方式即可"
+```javascript
+spans[0].onmouseout = function(){
+  changeColor(this,'#333','#f5f5f5');
+}
+```
 "好了，小白，对于用户等级这类特殊的需求你知道该怎么做了吧" 小明道
 
 "恩，既然用户名模块的this在桥接匿名函数中获取，那么也应该是同样的道理应用在用户等级上，通过桥接函数来获取数字元素，然后闯入changColor就可以了吧，"
-
-    spans[1].onmouseover = function(){
-        changeColor(this.getElementsByTagName('strong')[0],'red','#ddd');
-    }
-    spans[1].onmouseout = function(){
-        changeColor(this.getElementsByTagName('strong')[0],'#333','#f5f5f5');
-    }
-
+```javascript
+spans[1].onmouseover = function(){
+  changeColor(this.getElementsByTagName('strong')[0],'red','#ddd');
+}
+spans[1].onmouseout = function(){
+  changeColor(this.getElementsByTagName('strong')[0],'#333','#f5f5f5');
+}
+```
 "恩，小白你再来看看是不是现在与之前相比清晰多了，如果再想对需求做任何修改我们只需要修改changeColor的内容就可以了，而不比取到每个时间回到函数中去修改，当然这种实现方法看起来调理更清晰，但是别忘了她是以新增一个桥接函数为代价实现的"
 
 "是啊， 听你说的，感觉桥接模式只是先抽象提取共用部分，然后将实现与抽象通过桥接方法链接在一起，来实现解耦的作用的吧"
@@ -1751,84 +1744,91 @@ X域中代理页面B
 
 "你所得对，不过桥接模式的强大之处不仅仅在此，甚至对于多维的变化也同样适用，比如我们书写一个canvas跑步游戏的时候，对于游戏中的人、小精灵、小球等一系列的实物都有动作单元，而他们的每个动作实现起来方式又都是统一的，比如人和精灵和求的运动其实就是位置坐标X和Y的变化，求的颜色与精灵的色彩的绘制方式都相似等，这样我们可以将这些多维变化部分，提取出来作为一个抽象运动单元进行保存，而当我们创建实体时，将需要的每个抽象动作单元通过桥接，链接在一起运作，这样它们之间不会相互影响并且该方式降低了它们之间的耦合。"
 
-    //多维变量类
-    //运动单元
-    function Speed(x,y){
-        this.x = x ;
-        this.y = y ;
+```javascript
+//多维变量类
+//运动单元
+function Speed(x,y){
+  this.x = x ;
+  this.y = y ;
 
-    }
-    Speed.prototype.run = function(){
-        console.log('跑起来')
-    }
-    //着色单元
-    function Color(cl){
-        this.color = cl;
-    }
-    Color.prototype.draw = function(){
-        console.log('绘制色彩')
-    }
-    //变形单元
-    function Shape(sp){
-        this.shape = sp;
-    }
+}
+Speed.prototype.run = function(){
+  console.log('跑起来')
+}
+//着色单元
+function Color(cl){
+  this.color = cl;
+}
+Color.prototype.draw = function(){
+  console.log('绘制色彩')
+}
+//变形单元
+function Shape(sp){
+  this.shape = sp;
+}
 
-    Shape.prototype.change = function(){
-        console.log('改变形状')
-    }
-    //说话单元
-    function Speek(wd){
-        this.word = wd;
-    }
-    Speek.prototype.say = function(){
-        console.log('书写字体');
-    }
+Shape.prototype.change = function(){
+  console.log('改变形状')
+}
+//说话单元
+function Speek(wd){
+  this.word = wd;
+}
+Speek.prototype.say = function(){
+  console.log('书写字体');
+}
+
+```
 
 "于是我们想创建一个类，并且它可以运动，可以着色"
+```javascript
+function Ball(x,y,c){
+//实现运动单元
+  this.speed - new Speed(x,y);
+//实现着色单元
+  this.color = new Color(c);
+}
+Ball.prototype.init = function(){
+//实现运动
+  this.speed.run();
+//实现着色
+  this.color.draw()
+}
+```
 
-    function Ball(x,y,c){
-        //实现运动单元
-        this.speed - new Speed(x,y);
-        //实现着色单元
-        this.color = new Color(c);
-    }
-    Ball.prototype.init = function(){
-        //实现运动
-        this.speed.run();
-        //实现着色
-        this.color.draw()
-    }
 
 "同样我们想创建一个人物类，他可以运动以及说话"
+```javascript
+function People(x,y,f){
+  this.speed = new Speed(x,y);
+  this.font = new Speek(f);
+};
 
-    function People(x,y,f){
-        this.speed = new Speed(x,y);
-        this.font = new Speek(f);
-    };
-
-    People.prototype.init = function(){
-        this.speed.run();
-        this.font.say();
-    }
-
+People.prototype.init = function(){
+  this.speed.run();
+  this.font.say();
+}
+```
 "当然我们也可以创建一个精灵类，让它可以运动可以着色可以改变形状"
 
-    function Spirite(x,y,c,s){
-        this.speed = new Speed(x,y);
-        this.color = new Color(c);
-        this.shape = new Shape(s);
-    };
+```javascript
+function Spirite(x,y,c,s){
+  this.speed = new Speed(x,y);
+  this.color = new Color(c);
+  this.shape = new Shape(s);
+};
 
-    Spirite.prototype.init = function(){
-        this.speed.run();
-        this.color.draw();
-        this.shape.chagne();
-    }
+Spirite.prototype.init = function(){
+  this.speed.run();
+  this.color.draw();
+  this.shape.chagne();
+}
+```
 
 "当我们想实现一个任务时，我们直接实例化一个人物对象，这样他就可以有运动和说话的动作了"
 
-    var p = new People(10,12,16);
-    p.init();
+`const p = new People(10,12,16);`
+`p.init();`
 
 ### 忆之获
 
@@ -1944,7 +1944,3 @@ X域中代理页面B
 --------
 
 #### MVVM模式
-
-
-
-

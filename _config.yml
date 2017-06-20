@@ -3,12 +3,31 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: NHF
+title: Niexiaofei
 subtitle:
 description:
 author: niexiaofei
 language: zh
 timezone:
+
+jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: false
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -41,7 +60,7 @@ highlight:
   enable: true
   line_number: true
   auto_detect: true
-  tab_replace:
+  tab_replace: true
 
 # Category & Tag
 default_category: uncategorized
@@ -62,8 +81,8 @@ pagination_dir: page
 
 # Extensions
 ## Plugins: http://hexo.io/plugins/
-## Themes: http://hexo.io/themes/
-theme: jekyll-theme-midnight
+# Themes: http://hexo.io/themes/
+theme: hexo-theme-yilia
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
